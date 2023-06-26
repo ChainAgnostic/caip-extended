@@ -1,0 +1,24 @@
+{
+  "name": "caip-extended",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "lerna run build",
+    "test": "lerna run --stream test",
+    "release": "lerna publish"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.3.1",
+    "lerna": "^7.1.0",
+    "typescript": "^5.1.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
