@@ -16,7 +16,19 @@ importers:
 
   packages/common: {}
 
+  packages/hedera:
+    dependencies:
+      caip-common:
+        specifier: workspace:^
+        version: link:../common
+
   packages/solana:
+    dependencies:
+      caip-common:
+        specifier: workspace:^
+        version: link:../common
+
+  packages/waves:
     dependencies:
       caip-common:
         specifier: workspace:^
