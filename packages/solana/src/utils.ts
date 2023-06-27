@@ -71,6 +71,8 @@ export function isValidSolanaNamespaceAndReference(
   if (!base58BTCPattern.test(reference)) {
     return false;
   }
+
+  return true;
 }
 
 export function isValidSolanaAddress(address: string): boolean {

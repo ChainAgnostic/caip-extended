@@ -1,5 +1,5 @@
 {
-  "name": "caip-waves",
+  "name": "caip-eip155",
   "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
@@ -15,6 +15,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "caip-common": "workspace:^"
+    "caip-common": "workspace:^",
+    "keccak": "^3.0.3"
   }
 }

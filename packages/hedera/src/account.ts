@@ -4,20 +4,20 @@ import {
   AccountIdSplitParams,
   AccountId,
 } from "caip-common";
-import { isValidSolanaAccountId, isValidSolanaAddress } from "./utils";
-import { SolanaChainId } from "./chain";
+import { isValidHederaAccountId, isValidHederaAddress } from "./utils";
+import { HederaChainId } from "./chain";
 
-export class SolanaAccountId extends AccountId {
+export class HederaAccountId extends AccountId {
   constructor(params: AccountIdParams | string) {
     super(params);
 
     if (typeof params === "string") {
-      params = SolanaAccountId.parse(params);
+      params = HederaAccountId.parse(params);
     }
 
-    this.chainId = new SolanaChainId(params.chainId);
+    this.chainId = new HederaChainId(params.chainId);
 
-    if (!isValidSolanaAddress(params.address)) {
+    if (!isValidHederaAddress(params.address)) {
       throw new Error(`Invalid ${AccountId.spec.name} provided: ${params}`);
     }
 
@@ -25,7 +25,7 @@ export class SolanaAccountId extends AccountId {
   }
 
   public static parse(id: string): AccountIdParams {
-    if (isValidSolanaAccountId(id, this.spec)) {
+    if (isValidHederaAccountId(id, this.spec)) {
       throw new Error(`Invalid ${this.spec.name} provided: ${id}`);
     }
 
@@ -33,8 +33,8 @@ export class SolanaAccountId extends AccountId {
       id,
       this.spec
     );
-    const chainId = new SolanaChainId({ namespace, reference });
+    const chainId = new HederaChainId({ namespace, reference });
 
-    return new SolanaAccountId({ chainId, address }).toJSON();
+    return new HederaAccountId({ chainId, address }).toJSON();
   }
 }
