@@ -20,3 +20,12 @@ export interface ChainIdParams {
   namespace: string;
   reference: string;
 }
+
+export interface AccountIdSplitParams extends ChainIdParams {
+  address: string;
+}
+
+export interface AccountIdParams {
+  chainId: string | ChainIdParams;
+  address: string;
+}

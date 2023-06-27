@@ -1,8 +1,6 @@
 import { IdentifierSpec, splitParams } from "caip-common";
 
-const hederaReferencesRegex = new RegExp("[-a-zA-Z0-9]{5,32}");
-
-export function isValidWavesId(id: string, spec: IdentifierSpec): boolean {
+export function isValidWavesChainId(id: string, spec: IdentifierSpec): boolean {
   const params = splitParams(id, spec);
 
   if (params[0] !== "waves") {

@@ -1,8 +1,15 @@
-import { IdentifierSpec, splitParams } from "caip-common";
+import { IdentifierSpec, isValidId, splitParams } from "caip-common";
 
 const hederaReferencesRegex = new RegExp("[-a-zA-Z0-9]{5,32}");
 
-export function isValidHederaId(id: string, spec: IdentifierSpec): boolean {
+export function isValidHederaChainId(
+  id: string,
+  spec: IdentifierSpec
+): boolean {
+  if (!isValidId(id, spec)) {
+    throw new Error(`Invalid ${spec.name} provided: ${id}`);
+  }
+
   const params = splitParams(id, spec);
 
   if (params[0] !== "hedera") {

@@ -1,59 +1,25 @@
-import {
-  CAIP,
-  ChainIdParams,
-  IdentifierSpec,
-  Params,
-  getParams,
-  isValidId,
-  joinParams,
-} from "caip-common";
-import { isValidWavesId } from "./utils";
+import { ChainId, ChainIdParams, getParams } from "caip-common";
+import { isValidWavesChainId } from "./utils";
 
-export class ChainId {
-  public static spec: IdentifierSpec = CAIP["2"];
-  public namespace: string;
-  public reference: string;
-
+export class WavesChainId extends ChainId {
   constructor(params: ChainIdParams | string) {
+    super(params);
+
     if (typeof params === "string") {
-      params = ChainId.parse(params);
+      params = WavesChainId.parse(params);
     }
 
-    this.namespace = params.namespace;
-    this.reference = params.reference;
+    // todo check that chainIdParams also match the correct standard practice
+    super.namespace = params.namespace;
+    super.reference = params.reference;
   }
 
   public static parse(id: string): ChainIdParams {
-    if (!isValidId(id, this.spec)) {
-      throw new Error(`Invalid ${this.spec.name} provided: ${id}`);
+    if (!isValidWavesChainId(id, super.spec)) {
+      throw new Error(`Invalid waves ${super.spec.name} provided: ${id} `);
     }
 
-    if (!isValidWavesId(id, this.spec)) {
-      throw new Error(`Invalid waves ${this.spec.name} provided: ${id} `);
-    }
-
-    const chainIdParams = getParams<ChainIdParams>(id, this.spec);
+    const chainIdParams = getParams<ChainIdParams>(id, super.spec);
     return new ChainId(chainIdParams).toJSON();
-  }
-
-  public toString(): string {
-    return ChainId.format(this.toJSON());
-  }
-
-  public static format(params: ChainIdParams): string {
-    return joinParams(
-      {
-        namespace: params.namespace,
-        reference: params.reference,
-      },
-      this.spec
-    );
-  }
-
-  public toJSON(): ChainIdParams {
-    return {
-      namespace: this.namespace,
-      reference: this.reference,
-    };
   }
 }
