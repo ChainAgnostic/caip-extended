@@ -1,7 +1,7 @@
 import { ChainId, ChainIdParams, getParams } from "caip-common";
 import {
   isValidSolanaChainId,
-  isValidSolanaNamespaceAndReference,
+  isValidSolanaChainIdNamespaceAndReference,
 } from "./utils";
 
 export class SolanaChainId extends ChainId {
@@ -13,7 +13,10 @@ export class SolanaChainId extends ChainId {
     }
 
     if (
-      !isValidSolanaNamespaceAndReference(params.namespace, params.reference)
+      !isValidSolanaChainIdNamespaceAndReference(
+        params.namespace,
+        params.reference
+      )
     ) {
       throw new Error(`Invalid ${ChainId.spec.name} provided: ${params}`);
     }

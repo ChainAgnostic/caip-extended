@@ -23,7 +23,7 @@ export function isValidSolanaChainId(
 
   const params = splitParams(id, spec);
 
-  if (!isValidSolanaNamespaceAndReference(params[0], params[1])) {
+  if (!isValidSolanaChainIdNamespaceAndReference(params[0], params[1])) {
     return false;
   }
 
@@ -43,7 +43,7 @@ export function isValidSolanaAccountId(
     this.spec
   );
 
-  if (!isValidSolanaNamespaceAndReference(namespace, reference)) {
+  if (!isValidSolanaChainIdNamespaceAndReference(namespace, reference)) {
     return false;
   }
 
@@ -54,7 +54,39 @@ export function isValidSolanaAccountId(
   return true;
 }
 
-export function isValidSolanaNamespaceAndReference(
+export function isValidSolanaAssetName(
+  id: string,
+  spec: IdentifierSpec
+): boolean {
+  if (!isValidId(id, spec)) {
+    return false;
+  }
+
+  const params = splitParams(id, spec);
+
+  if (!isValidSolanaAssetNameAndReference(params[0], params[1])) {
+    return false;
+  }
+
+  return true;
+}
+
+export function isValidSolanaAssetNameAndReference(
+  namespace: string,
+  reference: string
+): boolean {
+  if (namespace !== "token" && namespace !== "nft") {
+    return false;
+  }
+
+  if (!isValidSolanaAddress(reference)) {
+    return false;
+  }
+
+  return true;
+}
+
+export function isValidSolanaChainIdNamespaceAndReference(
   namespace: string,
   reference: string
 ): boolean {
