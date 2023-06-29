@@ -7,6 +7,7 @@ import {
   isValidId,
   splitParams,
 } from "caip-common";
+import { AssetIdParams } from "./assetId";
 
 const hederaReferencesRegex = new RegExp("[-a-zA-Z0-9]{5,32}");
 

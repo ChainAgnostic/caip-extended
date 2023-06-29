@@ -1,5 +1,6 @@
 import {
   AccountIdSplitParams,
+  AssetIdParams,
   AssetNameParams,
   AssetTypeParams,
   ChainIdParams,
@@ -94,6 +95,30 @@ export function isValidEIP155AssetType(
   return true;
 }
 
+export function isValidEIP155AssetId(
+  id: string,
+  spec: IdentifierSpec
+): boolean {
+  if (!isValidId(id, spec)) {
+    return false;
+  }
+
+  const { chainId, assetName, tokenId } = getParams<AssetIdParams>(id, spec);
+
+  const chainIdString = chainId.toString();
+  const assetNameString = assetName.toString();
+
+  if (!isValidEIP155ChainId(chainIdString, spec)) {
+    return false;
+  }
+
+  if (!isValidEIP155AssetName(assetNameString, spec)) {
+    return false;
+  }
+
+  // todo should we do some check for the token id here?
+}
+
 export function isValidEIP155AssetNamespaceAndReference(
   namespace: string,
   reference: string
@@ -127,6 +152,8 @@ export const isValidAddress = (address: string) =>
   new RegExp(`/^0x[a-fA-F0-9]{40}$/`).test(address);
 
 // Referenced from https://eips.ethereum.org/EIPS/eip-55
+
+// todo check if we should allow capital 0X
 export const toChecksumAddress = (address: string) => {
   address = address.toLowerCase().replace("0x", "");
   var hash = createKeccakHash("keccak256").update(address).digest("hex");

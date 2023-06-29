@@ -13,30 +13,14 @@ export interface AssetIdParams {
 
 export class AssetId {
   public static spec: IdentifierSpec = CAIP["19"].assetId;
-
-  public static parse(id: string): AssetIdParams {
-    if (!isValidId(id, this.spec)) {
-      throw new Error(`Invalid ${this.spec.name} provided: ${id}`);
-    }
-    return new AssetId(getParams<AssetIdParams>(id, this.spec)).toJSON();
-  }
-
-  public static format(params: AssetIdParams): string {
-    return joinParams(params as any, this.spec);
-  }
-
   public chainId: ChainId;
   public assetName: AssetName;
   public tokenId: string;
 
-  constructor(params: AssetIdParams | string) {
-    if (typeof params === "string") {
-      params = AssetId.parse(params);
-    }
+  constructor(params: AssetIdParams | string) {}
 
-    this.chainId = new ChainId(params.chainId);
-    this.assetName = new AssetName(params.assetName);
-    this.tokenId = params.tokenId;
+  public static format(params: AssetIdParams): string {
+    return joinParams(params as any, this.spec);
   }
 
   public toString(): string {
