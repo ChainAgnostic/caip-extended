@@ -1,6 +1,8 @@
 import {
   AccountIdSplitParams,
   AssetNameParams,
+  AssetTypeParams,
+  ChainIdParams,
   IdentifierSpec,
   getParams,
   isValidId,
@@ -18,9 +20,9 @@ export function isValidEIP155ChainId(
     return false;
   }
 
-  const params = splitParams(id, spec);
+  const { namespace, reference } = getParams<ChainIdParams>(id, this.spec);
 
-  if (!isValidEIP155ChainIdNamespaceAndReference(params[0], params[1])) {
+  if (!isValidEIP155ChainIdNamespaceAndReference(namespace, reference)) {
     return false;
   }
 
@@ -64,6 +66,32 @@ export function isValidEIP155AssetName(
   if (!isValidEIP155AssetNamespaceAndReference(namespace, reference)) {
     return false;
   }
+  return true;
+}
+
+export function isValidEIP155AssetType(
+  id: string,
+  spec: IdentifierSpec
+): boolean {
+  if (!isValidId(id, spec)) {
+    return false;
+  }
+
+  const { chainId, assetName } = getParams<AssetTypeParams>(id, spec);
+
+  const chainIdString = chainId.toString();
+
+  if (!isValidEIP155ChainId(chainIdString, spec)) {
+    return false;
+  }
+
+  const assetNameString = assetName.toString();
+
+  if (!isValidEIP155AssetName(assetNameString, spec)) {
+    return false;
+  }
+
+  return true;
 }
 
 export function isValidEIP155AssetNamespaceAndReference(

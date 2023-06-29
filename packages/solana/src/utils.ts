@@ -1,5 +1,6 @@
 import {
   AccountIdSplitParams,
+  AssetTypeParams,
   IdentifierSpec,
   getParams,
   isValidId,
@@ -69,6 +70,28 @@ export function isValidSolanaAssetName(
   }
 
   return true;
+}
+
+export function isValidSolanaAssetType(
+  id: string,
+  spec: IdentifierSpec
+): boolean {
+  if (!isValidId(id, spec)) {
+    return false;
+  }
+
+  const { chainId, assetName } = getParams<AssetTypeParams>(id, spec);
+
+  const chainIdString = chainId.toString();
+  const assetNameString = assetName.toString();
+
+  if (!isValidSolanaChainId(chainIdString, spec)) {
+    return false;
+  }
+
+  if (!isValidSolanaAssetName(assetNameString, spec)) {
+    return false;
+  }
 }
 
 export function isValidSolanaAssetNameAndReference(
