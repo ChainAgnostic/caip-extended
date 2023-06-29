@@ -1,7 +1,7 @@
-import { ChainId, ChainIdParams, getParams, isValidId } from "caip-common";
+import { ChainId, ChainIdParams, getParams } from "caip-common";
 import {
+  isValidChainIdHederaNamespaceAndReference,
   isValidHederaChainId,
-  isValidHederaNamespaceAndReference,
 } from "./utils";
 
 export class HederaChainId extends ChainId {
@@ -13,7 +13,10 @@ export class HederaChainId extends ChainId {
     }
 
     if (
-      !isValidHederaNamespaceAndReference(params.namespace, params.reference)
+      !isValidChainIdHederaNamespaceAndReference(
+        params.namespace,
+        params.reference
+      )
     ) {
       throw new Error(
         `Invalid hedera ${ChainId.spec.name} provided: ${params}`

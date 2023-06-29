@@ -1,14 +1,14 @@
 import { AssetType, AssetTypeParams, getParams } from "caip-common";
 
-import { SolanaChainId } from "./chain";
 import { SolanaAssetName } from "./assetName";
+import { SolanaChainId } from "./chain";
 import { isValidSolanaAssetType } from "./utils";
 
 export class SolanaAssetType extends AssetType {
   constructor(params: AssetTypeParams | string) {
     super(params);
     if (typeof params === "string") {
-      params = AssetType.parse(params);
+      params = SolanaAssetType.parse(params);
     }
 
     this.chainId = new SolanaChainId(params.chainId);
@@ -19,6 +19,8 @@ export class SolanaAssetType extends AssetType {
     if (!isValidSolanaAssetType(id, this.spec)) {
       throw new Error(`Invalid ${this.spec.name} provided: ${id}`);
     }
-    return new AssetType(getParams<AssetTypeParams>(id, this.spec)).toJSON();
+    return new SolanaAssetType(
+      getParams<AssetTypeParams>(id, this.spec)
+    ).toJSON();
   }
 }

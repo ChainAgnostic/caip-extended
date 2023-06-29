@@ -37,12 +37,6 @@ importers:
         specifier: workspace:^
         version: link:../common
 
-  packages/waves:
-    dependencies:
-      caip-common:
-        specifier: workspace:^
-        version: link:../common
-
 packages:
 
   /@babel/code-frame@7.22.5:

@@ -1,15 +1,8 @@
-import { AssetName, AssetNameParams } from "./assetName";
+import { AssetName } from "./assetName";
 import { ChainId } from "./chain";
-import { ChainIdParams } from "./types";
 import { CAIP } from "./spec";
-import { IdentifierSpec } from "./types";
-import { isValidId, joinParams, getParams } from "./utils";
-
-export interface AssetIdParams {
-  chainId: string | ChainIdParams;
-  assetName: string | AssetNameParams;
-  tokenId: string;
-}
+import { AssetIdParams, IdentifierSpec } from "./types";
+import { joinParams } from "./utils";
 
 export class AssetId {
   public static spec: IdentifierSpec = CAIP["19"].assetId;

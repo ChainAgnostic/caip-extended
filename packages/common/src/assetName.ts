@@ -1,11 +1,6 @@
 import { CAIP } from "./spec";
-import { IdentifierSpec } from "./types";
+import { AssetNameParams, IdentifierSpec } from "./types";
 import { isValidId, joinParams, getParams } from "./utils";
-
-export interface AssetNameParams {
-  namespace: string;
-  reference: string;
-}
 
 export class AssetName {
   public static spec: IdentifierSpec = CAIP["19"].assetName;

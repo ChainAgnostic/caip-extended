@@ -1,19 +1,14 @@
 import {
-  isValidId,
-  getParams,
-  IdentifierSpec,
-  CAIP,
   AssetName,
+  AssetNameParams,
+  CAIP,
+  IdentifierSpec,
+  getParams,
 } from "caip-common";
 import {
   isValidEIP155AssetName,
   isValidEIP155AssetNamespaceAndReference,
 } from "./utils";
-
-export interface AssetNameParams {
-  namespace: string;
-  reference: string;
-}
 
 export class EIP155AssetName extends AssetName {
   public static spec: IdentifierSpec = CAIP["19"].assetName;

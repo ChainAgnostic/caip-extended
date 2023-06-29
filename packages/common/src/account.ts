@@ -1,13 +1,7 @@
 import { ChainId } from "./chain";
-import { getParams, isValidId, joinParams } from "./utils";
-import {
-  ChainIdParams,
-  IdentifierSpec,
-  Params,
-  AccountIdParams,
-  AccountIdSplitParams,
-} from "./types";
 import { CAIP } from "./spec";
+import { AccountIdParams, IdentifierSpec } from "./types";
+import { joinParams } from "./utils";
 
 export class AccountId {
   public static spec: IdentifierSpec = CAIP["10"];

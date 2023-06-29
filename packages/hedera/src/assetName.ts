@@ -1,19 +1,14 @@
 import {
-  isValidId,
-  getParams,
-  IdentifierSpec,
-  CAIP,
   AssetName,
+  AssetNameParams,
+  CAIP,
+  IdentifierSpec,
+  getParams,
 } from "caip-common";
 import {
   isValidHederaAssetName,
   isValidHederaAssetNamespaceAndReference,
 } from "./utils";
-
-export interface AssetNameParams {
-  namespace: string;
-  reference: string;
-}
 
 export class HederaAssetName extends AssetName {
   public static spec: IdentifierSpec = CAIP["19"].assetName;

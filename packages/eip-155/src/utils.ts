@@ -13,6 +13,8 @@ import createKeccakHash from "keccak";
 
 const eip155ChainIdRegex = new RegExp(`/^\d{1,32}$/`);
 
+const eip155TokenIdRegex = new RegExp(`[-a-zA-Z0-9]{1,32}`);
+
 export function isValidEIP155ChainId(
   id: string,
   spec: IdentifierSpec
@@ -103,20 +105,23 @@ export function isValidEIP155AssetId(
     return false;
   }
 
-  const { chainId, assetName, tokenId } = getParams<AssetIdParams>(id, spec);
+  // not validating tokenId here because eip-155 namespace CAIP-19
+  // doesnt have special restrictions on tokenId
+  const { chainId, assetName } = getParams<AssetIdParams>(id, spec);
 
   const chainIdString = chainId.toString();
-  const assetNameString = assetName.toString();
 
   if (!isValidEIP155ChainId(chainIdString, spec)) {
     return false;
   }
 
+  const assetNameString = assetName.toString();
+
   if (!isValidEIP155AssetName(assetNameString, spec)) {
     return false;
   }
 
-  // todo should we do some check for the token id here?
+  return true;
 }
 
 export function isValidEIP155AssetNamespaceAndReference(
@@ -169,6 +174,14 @@ export const toChecksumAddress = (address: string) => {
 
   return ret;
 };
+
+export function isValidEIP155TokenId(tokenId: string): boolean {
+  if (!eip155TokenIdRegex.test(tokenId)) {
+    return false;
+  }
+
+  return true;
+}
 
 export function isValidEIP155ChecksumAddress(address: string): boolean {
   if (!isValidAddress(address)) {

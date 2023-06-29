@@ -29,3 +29,25 @@ export interface AccountIdParams {
   chainId: string | ChainIdParams;
   address: string;
 }
+
+export interface AssetNameParams {
+  namespace: string;
+  reference: string;
+}
+
+export interface AssetIdParams {
+  chainId: string | ChainIdParams;
+  assetName: string | AssetNameParams;
+  tokenId: string;
+}
+
+export interface AssetTypeParams {
+  chainId: string | ChainIdParams;
+  assetName: string | AssetNameParams;
+}
+
+export interface AssetIdParams {
+  chainId: string | ChainIdParams;
+  assetName: string | AssetNameParams;
+  tokenId: string;
+}

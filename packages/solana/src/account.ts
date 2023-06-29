@@ -1,11 +1,11 @@
 import {
-  AccountIdParams,
-  getParams,
-  AccountIdSplitParams,
   AccountId,
+  AccountIdParams,
+  AccountIdSplitParams,
+  getParams,
 } from "caip-common";
-import { isValidSolanaAccountId, isValidSolanaAddress } from "./utils";
 import { SolanaChainId } from "./chain";
+import { isValidSolanaAccountId, isValidSolanaAddress } from "./utils";
 
 export class SolanaAccountId extends AccountId {
   constructor(params: AccountIdParams | string) {

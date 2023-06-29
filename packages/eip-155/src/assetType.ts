@@ -8,7 +8,7 @@ export class EIP155AssetType extends AssetType {
   constructor(params: AssetTypeParams | string) {
     super(params);
     if (typeof params === "string") {
-      params = AssetType.parse(params);
+      params = EIP155AssetType.parse(params);
     }
 
     this.chainId = new EIP155ChainId(params.chainId);
@@ -19,6 +19,8 @@ export class EIP155AssetType extends AssetType {
     if (!isValidEIP155AssetType(id, this.spec)) {
       throw new Error(`Invalid ${this.spec.name} provided: ${id}`);
     }
-    return new AssetType(getParams<AssetTypeParams>(id, this.spec)).toJSON();
+    return new EIP155AssetType(
+      getParams<AssetTypeParams>(id, this.spec)
+    ).toJSON();
   }
 }

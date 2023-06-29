@@ -1,22 +1,15 @@
-import { HederaAssetName } from "./assetName";
-import { HederaChainId } from "./chain";
-import { isValidHederaAssetId, isValidHederaAssetType } from "./utils";
 import {
   AssetId,
+  AssetIdParams,
   AssetName,
-  AssetNameParams,
   CAIP,
   ChainId,
-  ChainIdParams,
   IdentifierSpec,
   getParams,
 } from "caip-common";
-
-export interface AssetIdParams {
-  chainId: string | ChainIdParams;
-  assetName: string | AssetNameParams;
-  tokenId: string;
-}
+import { HederaAssetName } from "./assetName";
+import { HederaChainId } from "./chain";
+import { isValidHederaAssetId, isValidHederaTokenId } from "./utils";
 
 export class HederaAssetId extends AssetId {
   public static spec: IdentifierSpec = CAIP["19"].assetId;
@@ -32,12 +25,15 @@ export class HederaAssetId extends AssetId {
 
     this.chainId = new HederaChainId(params.chainId);
     this.assetName = new HederaAssetName(params.assetName);
-    // todo check if this is a valid token id
+
+    if (!isValidHederaTokenId(params.tokenId)) {
+      throw new Error(`Invalid ${HederaAssetId.spec.name} provided: ${params}`);
+    }
     this.tokenId = params.tokenId;
   }
 
   public static parse(id: string): AssetIdParams {
-    if (!isValidHederaAssetType(id, this.spec)) {
+    if (!isValidHederaAssetId(id, this.spec)) {
       throw new Error(`Invalid ${this.spec.name} provided: ${id}`);
     }
     return new HederaAssetId(getParams<AssetIdParams>(id, this.spec)).toJSON();

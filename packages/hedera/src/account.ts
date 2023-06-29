@@ -1,11 +1,11 @@
 import {
-  AccountIdParams,
-  getParams,
-  AccountIdSplitParams,
   AccountId,
+  AccountIdParams,
+  AccountIdSplitParams,
+  getParams,
 } from "caip-common";
-import { isValidHederaAccountId, isValidHederaAddress } from "./utils";
 import { HederaChainId } from "./chain";
+import { isValidHederaAccountId, isValidHederaAddress } from "./utils";
 
 export class HederaAccountId extends AccountId {
   constructor(params: AccountIdParams | string) {

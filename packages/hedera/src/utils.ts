@@ -6,8 +6,8 @@ import {
   getParams,
   isValidId,
   splitParams,
+  AssetIdParams,
 } from "caip-common";
-import { AssetIdParams } from "./assetId";
 
 const hederaReferencesRegex = new RegExp("[-a-zA-Z0-9]{5,32}");
 
@@ -15,13 +15,11 @@ const hederaAddressRegex = new RegExp(
   "[0-9]{1,19}.[0-9]{1,19}.[0-9]{1,19}(-[a-z]{5}){0,1}"
 );
 
-const hederaTokenRegex = new RegExp(
+const hederaAssetRegex = new RegExp(
   `[0-9]{1,19}\.[0-9]{1,19}\.[0-9]{1,19}(\-[a-z]{5}){0,1}`
 );
 
-const hederaNFTRegex = new RegExp(
-  `[0-9]{1,19}\.[0-9]{1,19}\.[0-9]{1,19}(\-[a-z]{5}){0,1}\/[0-9]{1,19}`
-);
+const hederaTokenIdRegex = new RegExp(`[0-9]{1,19}`);
 
 export function isValidHederaChainId(
   id: string,
@@ -106,6 +104,43 @@ export function isValidHederaAssetType(
   return true;
 }
 
+export function isValidHederaAssetId(
+  id: string,
+  spec: IdentifierSpec
+): boolean {
+  if (!isValidId(id, spec)) {
+    return false;
+  }
+
+  const { chainId, assetName, tokenId } = getParams<AssetIdParams>(id, spec);
+
+  const chainIdString = chainId.toString();
+
+  const assetNameString = assetName.toString();
+
+  if (!isValidHederaChainId(chainIdString, spec)) {
+    return false;
+  }
+
+  if (!isValidHederaAssetName(assetNameString, spec)) {
+    return false;
+  }
+
+  if (!isValidHederaTokenId(tokenId)) {
+    return false;
+  }
+
+  return true;
+}
+
+export function isValidHederaTokenId(tokenId: string): boolean {
+  if (!hederaTokenIdRegex.test(tokenId)) {
+    return false;
+  }
+
+  return true;
+}
+
 export function isValidHederaAssetNamespaceAndReference(
   namespace: string,
   reference: string
@@ -115,11 +150,7 @@ export function isValidHederaAssetNamespaceAndReference(
   }
 
   // Check if the string matches the hedera reference regex pattern
-  if (namespace === "token" && !hederaTokenRegex.test(reference)) {
-    return false;
-  }
-
-  if (namespace === "nft" && !hederaNFTRegex.test(reference)) {
+  if (!hederaAssetRegex.test(reference)) {
     return false;
   }
 

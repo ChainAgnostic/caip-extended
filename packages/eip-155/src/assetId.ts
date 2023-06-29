@@ -1,22 +1,15 @@
 import { EIP155AssetName } from "./assetName";
 import { EIP155ChainId } from "./chain";
-import { isValidEIP155AssetId } from "./utils";
+import { isValidEIP155AssetId, isValidEIP155TokenId } from "./utils";
 import {
   AssetId,
+  AssetIdParams,
   AssetName,
-  AssetNameParams,
   CAIP,
   ChainId,
-  ChainIdParams,
   IdentifierSpec,
   getParams,
 } from "caip-common";
-
-export interface AssetIdParams {
-  chainId: string | ChainIdParams;
-  assetName: string | AssetNameParams;
-  tokenId: string;
-}
 
 export class EIP155AssetId extends AssetId {
   public static spec: IdentifierSpec = CAIP["19"].assetId;
@@ -32,7 +25,10 @@ export class EIP155AssetId extends AssetId {
 
     this.chainId = new EIP155ChainId(params.chainId);
     this.assetName = new EIP155AssetName(params.assetName);
-    // todo check if this is a valid token id
+
+    if (!isValidEIP155TokenId(params.tokenId)) {
+      throw new Error(`Invalid ${EIP155AssetId.spec.name} provided: ${params}`);
+    }
     this.tokenId = params.tokenId;
   }
 
