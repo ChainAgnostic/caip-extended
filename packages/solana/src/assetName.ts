@@ -1,23 +1,21 @@
 import {
-  AssetName,
   AssetNameParams,
   CAIP,
   IdentifierSpec,
   getParams,
+  joinParams,
 } from "caip-common";
 import {
   isValidSolanaAssetName,
   isValidSolanaAssetNameAndReference,
 } from "./utils";
 
-export class SolanaAssetName extends AssetName {
+export class SolanaAssetName {
   public static spec: IdentifierSpec = CAIP["19"].assetName;
   public namespace: string;
   public reference: string;
 
   constructor(params: AssetNameParams | string) {
-    super(params);
-
     if (typeof params === "string") {
       params = SolanaAssetName.parse(params);
     }
@@ -25,7 +23,9 @@ export class SolanaAssetName extends AssetName {
     if (
       !isValidSolanaAssetNameAndReference(params.namespace, params.reference)
     ) {
-      throw new Error(`Invalid ${AssetName.spec.name} provided: ${params}`);
+      throw new Error(
+        `Invalid ${SolanaAssetName.spec.name} provided: ${params}`
+      );
     }
 
     this.namespace = params.namespace;
@@ -39,5 +39,20 @@ export class SolanaAssetName extends AssetName {
     return new SolanaAssetName(
       getParams<AssetNameParams>(id, this.spec)
     ).toJSON();
+  }
+
+  public static format(params: AssetNameParams): string {
+    return joinParams(params as any, this.spec);
+  }
+
+  public toString(): string {
+    return SolanaAssetName.format(this.toJSON());
+  }
+
+  public toJSON(): AssetNameParams {
+    return {
+      namespace: this.namespace,
+      reference: this.reference,
+    };
   }
 }

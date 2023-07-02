@@ -1,24 +1,21 @@
+import {
+  AssetIdParams,
+  CAIP,
+  IdentifierSpec,
+  getParams,
+  joinParams,
+} from "caip-common";
 import { EIP155AssetName } from "./assetName";
 import { EIP155ChainId } from "./chain";
 import { isValidEIP155AssetId, isValidEIP155TokenId } from "./utils";
-import {
-  AssetId,
-  AssetIdParams,
-  AssetName,
-  CAIP,
-  ChainId,
-  IdentifierSpec,
-  getParams,
-} from "caip-common";
 
-export class EIP155AssetId extends AssetId {
+export class EIP155AssetId {
   public static spec: IdentifierSpec = CAIP["19"].assetId;
-  public chainId: ChainId;
-  public assetName: AssetName;
+  public chainId: EIP155ChainId;
+  public assetName: EIP155AssetName;
   public tokenId: string;
 
   constructor(params: AssetIdParams | string) {
-    super(params);
     if (typeof params === "string") {
       params = EIP155AssetId.parse(params);
     }
@@ -37,5 +34,21 @@ export class EIP155AssetId extends AssetId {
       throw new Error(`Invalid ${this.spec.name} provided: ${id}`);
     }
     return new EIP155AssetId(getParams<AssetIdParams>(id, this.spec)).toJSON();
+  }
+
+  public static format(params: AssetIdParams): string {
+    return joinParams(params as any, this.spec);
+  }
+
+  public toString(): string {
+    return EIP155AssetId.format(this.toJSON());
+  }
+
+  public toJSON(): AssetIdParams {
+    return {
+      chainId: this.chainId.toJSON(),
+      assetName: this.assetName.toJSON(),
+      tokenId: this.tokenId,
+    };
   }
 }

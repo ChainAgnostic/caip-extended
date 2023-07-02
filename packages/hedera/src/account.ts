@@ -1,16 +1,20 @@
 import {
-  AccountId,
   AccountIdParams,
   AccountIdSplitParams,
+  CAIP,
+  IdentifierSpec,
   getParams,
+  joinParams,
 } from "caip-common";
 import { HederaChainId } from "./chain";
 import { isValidHederaAccountId, isValidHederaAddress } from "./utils";
 
-export class HederaAccountId extends AccountId {
-  constructor(params: AccountIdParams | string) {
-    super(params);
+export class HederaAccountId {
+  public static spec: IdentifierSpec = CAIP["10"];
+  public chainId: HederaChainId;
+  public address: string;
 
+  constructor(params: AccountIdParams | string) {
     if (typeof params === "string") {
       params = HederaAccountId.parse(params);
     }
@@ -18,10 +22,12 @@ export class HederaAccountId extends AccountId {
     this.chainId = new HederaChainId(params.chainId);
 
     if (!isValidHederaAddress(params.address)) {
-      throw new Error(`Invalid ${AccountId.spec.name} provided: ${params}`);
+      throw new Error(
+        `Invalid ${HederaAccountId.spec.name} provided: ${params}`
+      );
     }
 
-    super.address = params.address;
+    this.address = params.address;
   }
 
   public static parse(id: string): AccountIdParams {
@@ -36,5 +42,25 @@ export class HederaAccountId extends AccountId {
     const chainId = new HederaChainId({ namespace, reference });
 
     return new HederaAccountId({ chainId, address }).toJSON();
+  }
+
+  public static format(params: AccountIdParams): string {
+    const chainId = new HederaChainId(params.chainId);
+    const splitParams: AccountIdSplitParams = {
+      ...chainId.toJSON(),
+      address: params.address,
+    };
+    return joinParams(splitParams as any, this.spec);
+  }
+
+  public toString(): string {
+    return HederaAccountId.format(this.toJSON());
+  }
+
+  public toJSON(): AccountIdParams {
+    return {
+      chainId: this.chainId.toJSON(),
+      address: this.address,
+    };
   }
 }

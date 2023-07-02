@@ -1,13 +1,21 @@
-import { ChainId, ChainIdParams, getParams } from "caip-common";
+import {
+  CAIP,
+  ChainIdParams,
+  IdentifierSpec,
+  getParams,
+  joinParams,
+} from "caip-common";
 import {
   isValidSolanaChainId,
   isValidSolanaChainIdNamespaceAndReference,
 } from "./utils";
 
-export class SolanaChainId extends ChainId {
-  constructor(params: ChainIdParams | string) {
-    super(params);
+export class SolanaChainId {
+  public static spec: IdentifierSpec = CAIP["2"];
+  public namespace: string;
+  public reference: string;
 
+  constructor(params: ChainIdParams | string) {
     if (typeof params === "string") {
       params = SolanaChainId.parse(params);
     }
@@ -18,19 +26,40 @@ export class SolanaChainId extends ChainId {
         params.reference
       )
     ) {
-      throw new Error(`Invalid ${ChainId.spec.name} provided: ${params}`);
+      throw new Error(`Invalid ${SolanaChainId.spec.name} provided: ${params}`);
     }
 
-    super.namespace = params.namespace;
-    super.reference = params.reference;
+    this.namespace = params.namespace;
+    this.reference = params.reference;
   }
 
   public static parse(id: string): ChainIdParams {
-    if (!isValidSolanaChainId(id, super.spec)) {
-      throw new Error(`Invalid solana ${super.spec.name} provided: ${id} `);
+    if (!isValidSolanaChainId(id, this.spec)) {
+      throw new Error(`Invalid solana ${this.spec.name} provided: ${id} `);
     }
 
-    const chainIdParams = getParams<ChainIdParams>(id, super.spec);
+    const chainIdParams = getParams<ChainIdParams>(id, this.spec);
     return new SolanaChainId(chainIdParams).toJSON();
+  }
+
+  public toString(): string {
+    return SolanaChainId.format(this.toJSON());
+  }
+
+  public static format(params: ChainIdParams): string {
+    return joinParams(
+      {
+        namespace: params.namespace,
+        reference: params.reference,
+      },
+      SolanaChainId.spec
+    );
+  }
+
+  public toJSON(): ChainIdParams {
+    return {
+      namespace: this.namespace,
+      reference: this.reference,
+    };
   }
 }

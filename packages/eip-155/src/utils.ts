@@ -11,7 +11,7 @@ import {
 } from "caip-common";
 import createKeccakHash from "keccak";
 
-const eip155ChainIdRegex = new RegExp(`/^\d{1,32}$/`);
+const eip155ChainIdRegex = new RegExp(`^\\d{1,32}$`);
 
 const eip155TokenIdRegex = new RegExp(`[-a-zA-Z0-9]{1,32}`);
 
@@ -23,7 +23,7 @@ export function isValidEIP155ChainId(
     return false;
   }
 
-  const { namespace, reference } = getParams<ChainIdParams>(id, this.spec);
+  const { namespace, reference } = getParams<ChainIdParams>(id, spec);
 
   if (!isValidEIP155ChainIdNamespaceAndReference(namespace, reference)) {
     return false;
@@ -42,7 +42,7 @@ export function isValidEIP155AccountId(
 
   const { namespace, reference, address } = getParams<AccountIdSplitParams>(
     id,
-    this.spec
+    spec
   );
 
   if (!isValidEIP155ChainIdNamespaceAndReference(namespace, reference)) {
@@ -52,7 +52,6 @@ export function isValidEIP155AccountId(
   if (!isValidEIP155ChecksumAddress(address)) {
     return false;
   }
-
   return true;
 }
 
@@ -154,10 +153,9 @@ export function isValidEIP155ChainIdNamespaceAndReference(
 }
 
 export const isValidAddress = (address: string) =>
-  new RegExp(`/^0x[a-fA-F0-9]{40}$/`).test(address);
+  new RegExp("^0x[a-fA-F0-9]{40}$", "i").test(address);
 
 // Referenced from https://eips.ethereum.org/EIPS/eip-55
-
 // todo check if we should allow capital 0X
 export const toChecksumAddress = (address: string) => {
   address = address.toLowerCase().replace("0x", "");
@@ -187,6 +185,6 @@ export function isValidEIP155ChecksumAddress(address: string): boolean {
   if (!isValidAddress(address)) {
     return false;
   }
-
+  const checksumAddress = toChecksumAddress(address);
   return address === toChecksumAddress(address);
 }

@@ -1,23 +1,21 @@
 import {
-  AssetName,
   AssetNameParams,
   CAIP,
   IdentifierSpec,
   getParams,
+  joinParams,
 } from "caip-common";
 import {
   isValidEIP155AssetName,
   isValidEIP155AssetNamespaceAndReference,
 } from "./utils";
 
-export class EIP155AssetName extends AssetName {
+export class EIP155AssetName {
   public static spec: IdentifierSpec = CAIP["19"].assetName;
   public namespace: string;
   public reference: string;
 
   constructor(params: AssetNameParams | string) {
-    super(params);
-
     if (typeof params === "string") {
       params = EIP155AssetName.parse(params);
     }
@@ -28,7 +26,9 @@ export class EIP155AssetName extends AssetName {
         params.reference
       )
     ) {
-      throw new Error(`Invalid ${AssetName.spec.name} provided: ${params}`);
+      throw new Error(
+        `Invalid ${EIP155AssetName.spec.name} provided: ${params}`
+      );
     }
 
     this.namespace = params.namespace;
@@ -42,5 +42,20 @@ export class EIP155AssetName extends AssetName {
     return new EIP155AssetName(
       getParams<AssetNameParams>(id, this.spec)
     ).toJSON();
+  }
+
+  public static format(params: AssetNameParams): string {
+    return joinParams(params as any, this.spec);
+  }
+
+  public toString(): string {
+    return EIP155AssetName.format(this.toJSON());
+  }
+
+  public toJSON(): AssetNameParams {
+    return {
+      namespace: this.namespace,
+      reference: this.reference,
+    };
   }
 }

@@ -2,15 +2,19 @@ import {
   AccountIdParams,
   getParams,
   AccountIdSplitParams,
-  AccountId,
+  joinParams,
+  IdentifierSpec,
+  CAIP,
 } from "caip-common";
 import { isValidEIP155AccountId, isValidEIP155ChecksumAddress } from "./utils";
 import { EIP155ChainId } from "./chain";
 
-export class EIP155AccountId extends AccountId {
-  constructor(params: AccountIdParams | string) {
-    super(params);
+export class EIP155AccountId {
+  public static spec: IdentifierSpec = CAIP["10"];
+  public chainId: EIP155ChainId;
+  public address: string;
 
+  constructor(params: AccountIdParams | string) {
     if (typeof params === "string") {
       params = EIP155AccountId.parse(params);
     }
@@ -18,14 +22,16 @@ export class EIP155AccountId extends AccountId {
     this.chainId = new EIP155ChainId(params.chainId);
 
     if (!isValidEIP155ChecksumAddress(params.address)) {
-      throw new Error(`Invalid ${AccountId.spec.name} provided: ${params}`);
+      throw new Error(
+        `Invalid ${EIP155AccountId.spec.name} provided: ${params}`
+      );
     }
 
-    super.address = params.address;
+    this.address = params.address;
   }
 
   public static parse(id: string): AccountIdParams {
-    if (isValidEIP155AccountId(id, this.spec)) {
+    if (!isValidEIP155AccountId(id, this.spec)) {
       throw new Error(`Invalid ${this.spec.name} provided: ${id}`);
     }
 
@@ -36,5 +42,25 @@ export class EIP155AccountId extends AccountId {
     const chainId = new EIP155ChainId({ namespace, reference });
 
     return new EIP155AccountId({ chainId, address }).toJSON();
+  }
+
+  public static format(params: AccountIdParams): string {
+    const chainId = new EIP155ChainId(params.chainId);
+    const splitParams: AccountIdSplitParams = {
+      ...chainId.toJSON(),
+      address: params.address,
+    };
+    return joinParams(splitParams as any, this.spec);
+  }
+
+  public toString(): string {
+    return EIP155AccountId.format(this.toJSON());
+  }
+
+  public toJSON(): AccountIdParams {
+    return {
+      chainId: this.chainId.toJSON(),
+      address: this.address,
+    };
   }
 }

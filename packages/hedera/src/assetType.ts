@@ -1,12 +1,21 @@
-import { AssetType, AssetTypeParams, getParams } from "caip-common";
+import {
+  AssetTypeParams,
+  CAIP,
+  IdentifierSpec,
+  getParams,
+  joinParams,
+} from "caip-common";
 
-import { HederaChainId } from "./chain";
 import { HederaAssetName } from "./assetName";
+import { HederaChainId } from "./chain";
 import { isValidHederaAssetType } from "./utils";
 
-export class HederaAssetType extends AssetType {
+export class HederaAssetType {
+  public static spec: IdentifierSpec = CAIP["19"].assetType;
+  public chainId: HederaChainId;
+  public assetName: HederaAssetName;
+
   constructor(params: AssetTypeParams | string) {
-    super(params);
     if (typeof params === "string") {
       params = HederaAssetType.parse(params);
     }
@@ -22,5 +31,20 @@ export class HederaAssetType extends AssetType {
     return new HederaAssetType(
       getParams<AssetTypeParams>(id, this.spec)
     ).toJSON();
+  }
+
+  public static format(params: AssetTypeParams): string {
+    return joinParams(params as any, this.spec);
+  }
+
+  public toString(): string {
+    return HederaAssetType.format(this.toJSON());
+  }
+
+  public toJSON(): AssetTypeParams {
+    return {
+      chainId: this.chainId.toJSON(),
+      assetName: this.assetName,
+    };
   }
 }

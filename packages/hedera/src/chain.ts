@@ -1,13 +1,21 @@
-import { ChainId, ChainIdParams, getParams } from "caip-common";
+import {
+  CAIP,
+  ChainIdParams,
+  IdentifierSpec,
+  getParams,
+  joinParams,
+} from "caip-common";
 import {
   isValidChainIdHederaNamespaceAndReference,
   isValidHederaChainId,
 } from "./utils";
 
-export class HederaChainId extends ChainId {
-  constructor(params: ChainIdParams | string) {
-    super(params);
+export class HederaChainId {
+  public static spec: IdentifierSpec = CAIP["2"];
+  public namespace: string;
+  public reference: string;
 
+  constructor(params: ChainIdParams | string) {
     if (typeof params === "string") {
       params = HederaChainId.parse(params);
     }
@@ -19,7 +27,7 @@ export class HederaChainId extends ChainId {
       )
     ) {
       throw new Error(
-        `Invalid hedera ${ChainId.spec.name} provided: ${params}`
+        `Invalid hedera ${HederaChainId.spec.name} provided: ${params}`
       );
     }
 
@@ -34,5 +42,26 @@ export class HederaChainId extends ChainId {
 
     const chainIdParams = getParams<ChainIdParams>(id, this.spec);
     return new HederaChainId(chainIdParams).toJSON();
+  }
+
+  public toString(): string {
+    return HederaChainId.format(this.toJSON());
+  }
+
+  public static format(params: ChainIdParams): string {
+    return joinParams(
+      {
+        namespace: params.namespace,
+        reference: params.reference,
+      },
+      HederaChainId.spec
+    );
+  }
+
+  public toJSON(): ChainIdParams {
+    return {
+      namespace: this.namespace,
+      reference: this.reference,
+    };
   }
 }

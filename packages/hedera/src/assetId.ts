@@ -1,24 +1,21 @@
 import {
-  AssetId,
   AssetIdParams,
-  AssetName,
   CAIP,
-  ChainId,
   IdentifierSpec,
   getParams,
+  joinParams,
 } from "caip-common";
 import { HederaAssetName } from "./assetName";
 import { HederaChainId } from "./chain";
 import { isValidHederaAssetId, isValidHederaTokenId } from "./utils";
 
-export class HederaAssetId extends AssetId {
+export class HederaAssetId {
   public static spec: IdentifierSpec = CAIP["19"].assetId;
-  public chainId: ChainId;
-  public assetName: AssetName;
+  public chainId: HederaChainId;
+  public assetName: HederaAssetName;
   public tokenId: string;
 
   constructor(params: AssetIdParams | string) {
-    super(params);
     if (typeof params === "string") {
       params = HederaAssetId.parse(params);
     }
@@ -37,5 +34,21 @@ export class HederaAssetId extends AssetId {
       throw new Error(`Invalid ${this.spec.name} provided: ${id}`);
     }
     return new HederaAssetId(getParams<AssetIdParams>(id, this.spec)).toJSON();
+  }
+
+  public static format(params: AssetIdParams): string {
+    return joinParams(params as any, this.spec);
+  }
+
+  public toString(): string {
+    return HederaAssetId.format(this.toJSON());
+  }
+
+  public toJSON(): AssetIdParams {
+    return {
+      chainId: this.chainId.toJSON(),
+      assetName: this.assetName.toJSON(),
+      tokenId: this.tokenId,
+    };
   }
 }

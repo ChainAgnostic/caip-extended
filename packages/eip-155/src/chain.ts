@@ -1,13 +1,21 @@
-import { ChainId, ChainIdParams, getParams } from "caip-common";
 import {
-  isValidEIP155ChainIdNamespaceAndReference,
+  CAIP,
+  ChainIdParams,
+  IdentifierSpec,
+  getParams,
+  joinParams,
+} from "caip-common";
+import {
   isValidEIP155ChainId,
+  isValidEIP155ChainIdNamespaceAndReference,
 } from "./utils";
 
-export class EIP155ChainId extends ChainId {
-  constructor(params: ChainIdParams | string) {
-    super(params);
+export class EIP155ChainId {
+  public static spec: IdentifierSpec = CAIP["2"];
+  public namespace: string;
+  public reference: string;
 
+  constructor(params: ChainIdParams | string) {
     if (typeof params === "string") {
       params = EIP155ChainId.parse(params);
     }
@@ -18,7 +26,7 @@ export class EIP155ChainId extends ChainId {
         params.reference
       )
     ) {
-      throw new Error(`Invalid ${ChainId.spec.name} provided: ${params}`);
+      throw new Error(`Invalid ${EIP155ChainId.spec.name} provided: ${params}`);
     }
     this.namespace = params.namespace;
     this.reference = params.reference;
@@ -31,5 +39,26 @@ export class EIP155ChainId extends ChainId {
 
     const chainIdParams = getParams<ChainIdParams>(id, this.spec);
     return new EIP155ChainId(chainIdParams).toJSON();
+  }
+
+  public toString(): string {
+    return EIP155ChainId.format(this.toJSON());
+  }
+
+  public static format(params: ChainIdParams): string {
+    return joinParams(
+      {
+        namespace: params.namespace,
+        reference: params.reference,
+      },
+      EIP155ChainId.spec
+    );
+  }
+
+  public toJSON(): ChainIdParams {
+    return {
+      namespace: this.namespace,
+      reference: this.reference,
+    };
   }
 }

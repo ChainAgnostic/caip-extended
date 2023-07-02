@@ -1,12 +1,21 @@
-import { AssetType, AssetTypeParams, getParams } from "caip-common";
+import {
+  AssetTypeParams,
+  CAIP,
+  IdentifierSpec,
+  getParams,
+  joinParams,
+} from "caip-common";
 
 import { SolanaAssetName } from "./assetName";
 import { SolanaChainId } from "./chain";
 import { isValidSolanaAssetType } from "./utils";
 
-export class SolanaAssetType extends AssetType {
+export class SolanaAssetType {
+  public static spec: IdentifierSpec = CAIP["19"].assetType;
+  public chainId: SolanaChainId;
+  public assetName: SolanaAssetName;
+
   constructor(params: AssetTypeParams | string) {
-    super(params);
     if (typeof params === "string") {
       params = SolanaAssetType.parse(params);
     }
@@ -22,5 +31,20 @@ export class SolanaAssetType extends AssetType {
     return new SolanaAssetType(
       getParams<AssetTypeParams>(id, this.spec)
     ).toJSON();
+  }
+
+  public static format(params: AssetTypeParams): string {
+    return joinParams(params as any, this.spec);
+  }
+
+  public toString(): string {
+    return SolanaAssetType.format(this.toJSON());
+  }
+
+  public toJSON(): AssetTypeParams {
+    return {
+      chainId: this.chainId.toJSON(),
+      assetName: this.assetName,
+    };
   }
 }
