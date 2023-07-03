@@ -4,6 +4,7 @@ import {
   CAIP,
   IdentifierSpec,
   getParams,
+  isValidId,
   joinParams,
 } from "caip-common";
 import { HederaChainId } from "./chain";
@@ -23,7 +24,7 @@ export class HederaAccountId {
 
     if (!isValidHederaAddress(params.address)) {
       throw new Error(
-        `Invalid ${HederaAccountId.spec.name} provided: ${params}`
+        `Invalid hedera ${HederaAccountId.spec.name} provided: ${params}`
       );
     }
 
@@ -31,8 +32,11 @@ export class HederaAccountId {
   }
 
   public static parse(id: string): AccountIdParams {
-    if (isValidHederaAccountId(id, this.spec)) {
-      throw new Error(`Invalid ${this.spec.name} provided: ${id}`);
+    if (!isValidId(id, this.spec)) {
+      throw new Error(`Invalid hedera ${this.spec.name} provided: ${id}`);
+    }
+    if (isValidHederaAccountId(id)) {
+      throw new Error(`Invalid hedera ${this.spec.name} provided: ${id}`);
     }
 
     const { namespace, reference, address } = getParams<AccountIdSplitParams>(

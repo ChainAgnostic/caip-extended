@@ -7,6 +7,7 @@ import {
   isValidId,
   splitParams,
   AssetIdParams,
+  CAIP,
 } from "caip-common";
 
 const hederaReferencesRegex = new RegExp("[-a-zA-Z0-9]{5,32}");
@@ -21,15 +22,8 @@ const hederaAssetRegex = new RegExp(
 
 const hederaTokenIdRegex = new RegExp(`[0-9]{1,19}`);
 
-export function isValidHederaChainId(
-  id: string,
-  spec: IdentifierSpec
-): boolean {
-  if (!isValidId(id, spec)) {
-    return false;
-  }
-
-  const params = splitParams(id, spec);
+export function isValidHederaChainId(id: string): boolean {
+  const params = splitParams(id, CAIP["2"]);
 
   if (!isValidChainIdHederaNamespaceAndReference(params[0], params[1])) {
     return false;
@@ -38,17 +32,10 @@ export function isValidHederaChainId(
   return true;
 }
 
-export function isValidHederaAccountId(
-  id: string,
-  spec: IdentifierSpec
-): boolean {
-  if (!isValidId(id, spec)) {
-    return false;
-  }
-
+export function isValidHederaAccountId(id: string): boolean {
   const { namespace, reference, address } = getParams<AccountIdSplitParams>(
     id,
-    this.spec
+    CAIP["10"]
   );
 
   if (!isValidChainIdHederaNamespaceAndReference(namespace, reference)) {
@@ -62,15 +49,11 @@ export function isValidHederaAccountId(
   return true;
 }
 
-export function isValidHederaAssetName(
-  id: string,
-  spec: IdentifierSpec
-): boolean {
-  if (!isValidId(id, spec)) {
-    return false;
-  }
-
-  const { namespace, reference } = getParams<AssetNameParams>(id, spec);
+export function isValidHederaAssetName(id: string): boolean {
+  const { namespace, reference } = getParams<AssetNameParams>(
+    id,
+    CAIP["19"].assetName
+  );
 
   if (!isValidHederaAssetNamespaceAndReference(namespace, reference)) {
     return false;
@@ -79,50 +62,42 @@ export function isValidHederaAssetName(
   return true;
 }
 
-export function isValidHederaAssetType(
-  id: string,
-  spec: IdentifierSpec
-): boolean {
-  if (!isValidId(id, spec)) {
-    return false;
-  }
-
-  const { chainId, assetName } = getParams<AssetTypeParams>(id, spec);
+export function isValidHederaAssetType(id: string): boolean {
+  const { chainId, assetName } = getParams<AssetTypeParams>(
+    id,
+    CAIP["19"].assetType
+  );
 
   const chainIdString = chainId.toString();
 
   const assetNameString = assetName.toString();
 
-  if (!isValidHederaChainId(chainIdString, spec)) {
+  if (!isValidHederaChainId(chainIdString)) {
     return false;
   }
 
-  if (!isValidHederaAssetName(assetNameString, spec)) {
+  if (!isValidHederaAssetName(assetNameString)) {
     return false;
   }
 
   return true;
 }
 
-export function isValidHederaAssetId(
-  id: string,
-  spec: IdentifierSpec
-): boolean {
-  if (!isValidId(id, spec)) {
-    return false;
-  }
-
-  const { chainId, assetName, tokenId } = getParams<AssetIdParams>(id, spec);
+export function isValidHederaAssetId(id: string): boolean {
+  const { chainId, assetName, tokenId } = getParams<AssetIdParams>(
+    id,
+    CAIP["19"].assetId
+  );
 
   const chainIdString = chainId.toString();
 
   const assetNameString = assetName.toString();
 
-  if (!isValidHederaChainId(chainIdString, spec)) {
+  if (!isValidHederaChainId(chainIdString)) {
     return false;
   }
 
-  if (!isValidHederaAssetName(assetNameString, spec)) {
+  if (!isValidHederaAssetName(assetNameString)) {
     return false;
   }
 

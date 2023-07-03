@@ -12,7 +12,7 @@ const CAIP2: IdentifierSpec = {
       },
       1: {
         name: "reference",
-        regex: "[-a-zA-Z0-9]{1,32}",
+        regex: "[-_a-zA-Z0-9]{1,32}",
       },
     },
   },
@@ -30,11 +30,11 @@ const CAIP10: IdentifierSpec = {
       },
       1: {
         name: "reference",
-        regex: "[-a-zA-Z0-9]{1,32}",
+        regex: "[-_a-zA-Z0-9]{1,32}",
       },
       2: {
         name: "address",
-        regex: "[a-zA-Z0-9]{1,64}",
+        regex: "[-.%a-zA-Z0-9]{1,128}",
       },
     },
   },
@@ -43,7 +43,7 @@ const CAIP10: IdentifierSpec = {
 // represents namespace:reference in CAIP-19
 const AssetName: IdentifierSpec = {
   name: "assetName",
-  regex: "[-:a-zA-Z0-9]{5,73}",
+  regex: "[-:a-zA-Z0-9]{5,137}",
   parameters: {
     delimiter: ":",
     values: {
@@ -53,7 +53,7 @@ const AssetName: IdentifierSpec = {
       },
       1: {
         name: "reference",
-        regex: "[-a-zA-Z0-9]{1,64}",
+        regex: "[-.%a-zA-Z0-9]{1,128}",
       },
     },
   },
@@ -61,7 +61,7 @@ const AssetName: IdentifierSpec = {
 
 const CAIP19AssetType: IdentifierSpec = {
   name: "assetType",
-  regex: "[-:a-zA-Z0-9]{11,115}",
+  regex: "[-:a-zA-Z0-9]{11,179}",
   parameters: {
     delimiter: "/",
     values: {
@@ -73,7 +73,7 @@ const CAIP19AssetType: IdentifierSpec = {
 
 const CAIP19AssetId: IdentifierSpec = {
   name: "assetId",
-  regex: "[-:a-zA-Z0-9]{13,148}",
+  regex: "[-:a-zA-Z0-9]{13,258}",
   parameters: {
     delimiter: "/",
     values: {
@@ -81,7 +81,7 @@ const CAIP19AssetId: IdentifierSpec = {
       1: AssetName,
       2: {
         name: "tokenId",
-        regex: "[-a-zA-Z0-9]{1,32}",
+        regex: "[-.%a-zA-Z0-9]{1,78}",
       },
     },
   },

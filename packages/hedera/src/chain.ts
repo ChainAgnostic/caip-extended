@@ -3,6 +3,7 @@ import {
   ChainIdParams,
   IdentifierSpec,
   getParams,
+  isValidId,
   joinParams,
 } from "caip-common";
 import {
@@ -36,7 +37,10 @@ export class HederaChainId {
   }
 
   public static parse(id: string): ChainIdParams {
-    if (!isValidHederaChainId(id, this.spec)) {
+    if (!isValidId(id, this.spec)) {
+      throw new Error(`Invalid hedera ${this.spec.name} provided: ${id}`);
+    }
+    if (!isValidHederaChainId(id)) {
       throw new Error(`Invalid hedera ${this.spec.name} provided: ${id} `);
     }
 

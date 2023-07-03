@@ -3,6 +3,7 @@ import {
   CAIP,
   IdentifierSpec,
   getParams,
+  isValidId,
   joinParams,
 } from "caip-common";
 
@@ -25,8 +26,11 @@ export class HederaAssetType {
   }
 
   public static parse(id: string): AssetTypeParams {
-    if (!isValidHederaAssetType(id, this.spec)) {
-      throw new Error(`Invalid ${this.spec.name} provided: ${id}`);
+    if (!isValidId(id, this.spec)) {
+      throw new Error(`Invalid hedera ${this.spec.name} provided: ${id}`);
+    }
+    if (!isValidHederaAssetType(id)) {
+      throw new Error(`Invalid hedera ${this.spec.name} provided: ${id}`);
     }
     return new HederaAssetType(
       getParams<AssetTypeParams>(id, this.spec)
