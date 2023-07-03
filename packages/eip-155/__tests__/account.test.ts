@@ -49,16 +49,19 @@ describe("EIP155AccountId", () => {
     assertAccountIdInterface(new EIP155AccountId(json));
   });
 
-  it("should fail if invalid EIP155 AccountId Params", async () => {
-    const result = new EIP155AccountId(data.ACCOUNT_ID_PARAMS);
-    const str = JSON.stringify(result);
-    const json = JSON.parse(str);
-    json.address = "0x123";
-    expect(() => new EIP155AccountId(json)).toThrow();
-    expect(() => new EIP155AccountId({ ...json, chainId: "0x123" })).toThrow();
+  it("should fail if invalid EIP155 AccountId String", async () => {
+    expect(() => new EIP155AccountId(data.INVALID_ACCOUNT_ID_STRING)).toThrow();
   });
 
-  it("should fail if invalid EIP155 AccountId string", async () => {});
+  it("should fail if invalid EIP155 AccountId Params", async () => {
+    expect(() => new EIP155AccountId(data.INVALID_ACCOUNT_ID_PARAMS)).toThrow();
+  });
+
+  it("should fail on parse if EIP155 AccountId String is invalid", async () => {
+    expect(() =>
+      EIP155AccountId.parse(data.INVALID_ACCOUNT_ID_STRING)
+    ).toThrow();
+  });
 
   it("should support toString", async () => {
     const result = new EIP155AccountId(data.ACCOUNT_ID_PARAMS);

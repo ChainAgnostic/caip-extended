@@ -21,6 +21,15 @@ export const ACCOUNT_ID_PARAMS = {
   address: ACCOUNT_ID_ADDRESS,
 };
 
+// Invalid AccountId Data Points
+export const INVALID_ACCOUNT_ID_ADDRESS = "0x123";
+export const INVALID_ACCOUNT_ID_STRING =
+  CHAIN_ID_STRING + ACCOUNT_ID_DELIMITER + INVALID_ACCOUNT_ID_ADDRESS;
+export const INVALID_ACCOUNT_ID_PARAMS = {
+  chainId: CHAIN_ID_STRING,
+  address: INVALID_ACCOUNT_ID_ADDRESS,
+};
+
 export const ACCOUNT_ID_NESTED_PARAMS = {
   chainId: CHAIN_ID_PARAMS,
   address: ACCOUNT_ID_ADDRESS,
@@ -36,6 +45,23 @@ export const ASSET_NAME_PARAMS: AssetNameParams = {
   reference: ASSET_REFERENCE,
 };
 
+// Invalid AssetName Data Points
+export const INVALID_ASSET_REFERENCE = "0x123";
+export const INVALID_ASSET_NAME_STRING_WITH_INCORRECT_REFERENCE = `${ASSET_NAMESPACE}${ASSET_NAME_DELIMITER}${INVALID_ASSET_REFERENCE}`;
+export const INVALID_ASSET_NAME_PARAMS_WITH_INCORRECT_REFERENCE: AssetNameParams =
+  {
+    namespace: ASSET_NAMESPACE,
+    reference: INVALID_ASSET_REFERENCE,
+  };
+
+export const INVALID_ASSET_NAMESPACE = "erc123";
+export const INVALID_ASSET_NAME_STRING_WITH_INCORRECT_NAMESPACE = `${INVALID_ASSET_NAMESPACE}${ASSET_NAME_DELIMITER}${ASSET_REFERENCE}`;
+export const INVALID_ASSET_NAME_PARAMS_WITH_INCORRECT_NAMESPACE: AssetNameParams =
+  {
+    namespace: INVALID_ASSET_NAMESPACE,
+    reference: ASSET_REFERENCE,
+  };
+
 // AssetType Data Points
 export const ASSET_TYPE_STRING = `${CHAIN_ID_STRING}/${ASSET_NAME_STRING}`;
 export const ASSET_TYPE_PARAMS: AssetTypeParams = {
@@ -46,6 +72,18 @@ export const ASSET_TYPE_PARAMS: AssetTypeParams = {
 export const ASSET_TYPE_NESTED_PARAMS: AssetTypeParams = {
   chainId: CHAIN_ID_PARAMS,
   assetName: ASSET_NAME_PARAMS,
+};
+
+// Invalid AssetType Data Points
+export const INVALID_ASSET_TYPE_STRING = `${CHAIN_ID_STRING}/${INVALID_ASSET_NAME_STRING_WITH_INCORRECT_NAMESPACE}`;
+export const INVALID_ASSET_TYPE_PARAMS: AssetTypeParams = {
+  chainId: CHAIN_ID_STRING,
+  assetName: INVALID_ASSET_TYPE_STRING,
+};
+
+export const INVALID_ASSET_TYPE_NESTED_PARAMS: AssetTypeParams = {
+  chainId: CHAIN_ID_PARAMS,
+  assetName: INVALID_ASSET_NAME_PARAMS_WITH_INCORRECT_NAMESPACE,
 };
 
 // AssetType Data Points
@@ -61,4 +99,19 @@ export const ASSET_ID_NESTED_PARAMS: AssetIdParams = {
   chainId: CHAIN_ID_PARAMS,
   assetName: ASSET_NAME_PARAMS,
   tokenId: TOKEN_ID,
+};
+
+// Invalid AssetId Data Points
+export const INVALID_TOKEN_ID = "**";
+export const INVALID_ASSET_ID_STRING = `${INVALID_ASSET_TYPE_STRING}/${TOKEN_ID}`;
+export const INVALID_ASSET_ID_PARAMS: AssetIdParams = {
+  chainId: CHAIN_ID_STRING,
+  assetName: ASSET_NAME_STRING,
+  tokenId: INVALID_TOKEN_ID,
+};
+
+export const INVALID_ASSET_ID_NESTED_PARAMS: AssetIdParams = {
+  chainId: CHAIN_ID_PARAMS,
+  assetName: ASSET_NAME_PARAMS,
+  tokenId: INVALID_TOKEN_ID,
 };

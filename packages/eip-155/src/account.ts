@@ -5,6 +5,7 @@ import {
   joinParams,
   IdentifierSpec,
   CAIP,
+  isValidId,
 } from "caip-common";
 import { isValidEIP155AccountId, isValidEIP155ChecksumAddress } from "./utils";
 import { EIP155ChainId } from "./chain";
@@ -23,7 +24,7 @@ export class EIP155AccountId {
 
     if (!isValidEIP155ChecksumAddress(params.address)) {
       throw new Error(
-        `Invalid ${EIP155AccountId.spec.name} provided: ${params}`
+        `Invalid eip-155 ${EIP155AccountId.spec.name} provided: ${params}`
       );
     }
 
@@ -31,7 +32,11 @@ export class EIP155AccountId {
   }
 
   public static parse(id: string): AccountIdParams {
-    if (!isValidEIP155AccountId(id, this.spec)) {
+    if (!isValidId(id, this.spec)) {
+      throw new Error(`Invalid eip-155 ${this.spec.name} provided: ${id} `);
+    }
+
+    if (!isValidEIP155AccountId(id)) {
       throw new Error(`Invalid ${this.spec.name} provided: ${id}`);
     }
 

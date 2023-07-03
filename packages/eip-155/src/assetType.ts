@@ -3,6 +3,7 @@ import {
   CAIP,
   IdentifierSpec,
   getParams,
+  isValidId,
   joinParams,
 } from "caip-common";
 
@@ -25,8 +26,11 @@ export class EIP155AssetType {
   }
 
   public static parse(id: string): AssetTypeParams {
-    if (!isValidEIP155AssetType(id, this.spec)) {
-      throw new Error(`Invalid ${this.spec.name} provided: ${id}`);
+    if (!isValidId(id, this.spec)) {
+      throw new Error(`Invalid eip-155 ${this.spec.name} provided: ${id}`);
+    }
+    if (!isValidEIP155AssetType(id)) {
+      throw new Error(`Invalid eip-155 ${this.spec.name} provided: ${id}`);
     }
     return new EIP155AssetType(
       getParams<AssetTypeParams>(id, this.spec)

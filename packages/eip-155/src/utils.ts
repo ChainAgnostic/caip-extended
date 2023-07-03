@@ -3,27 +3,18 @@ import {
   AssetIdParams,
   AssetNameParams,
   AssetTypeParams,
+  CAIP,
   ChainIdParams,
-  IdentifierSpec,
   getParams,
-  isValidId,
-  splitParams,
 } from "caip-common";
 import createKeccakHash from "keccak";
 
 const eip155ChainIdRegex = new RegExp(`^\\d{1,32}$`);
 
-const eip155TokenIdRegex = new RegExp(`[-a-zA-Z0-9]{1,32}`);
+const eip155TokenIdRegex = new RegExp(`[-.%a-zA-Z0-9]{1,78}`);
 
-export function isValidEIP155ChainId(
-  id: string,
-  spec: IdentifierSpec
-): boolean {
-  if (!isValidId(id, spec)) {
-    return false;
-  }
-
-  const { namespace, reference } = getParams<ChainIdParams>(id, spec);
+export function isValidEIP155ChainId(id: string): boolean {
+  const { namespace, reference } = getParams<ChainIdParams>(id, CAIP["2"]);
 
   if (!isValidEIP155ChainIdNamespaceAndReference(namespace, reference)) {
     return false;
@@ -32,17 +23,10 @@ export function isValidEIP155ChainId(
   return true;
 }
 
-export function isValidEIP155AccountId(
-  id: string,
-  spec: IdentifierSpec
-): boolean {
-  if (!isValidId(id, spec)) {
-    return false;
-  }
-
+export function isValidEIP155AccountId(id: string): boolean {
   const { namespace, reference, address } = getParams<AccountIdSplitParams>(
     id,
-    spec
+    CAIP["10"]
   );
 
   if (!isValidEIP155ChainIdNamespaceAndReference(namespace, reference)) {
@@ -55,15 +39,11 @@ export function isValidEIP155AccountId(
   return true;
 }
 
-export function isValidEIP155AssetName(
-  id: string,
-  spec: IdentifierSpec
-): boolean {
-  if (!isValidId(id, spec)) {
-    return false;
-  }
-
-  const { namespace, reference } = getParams<AssetNameParams>(id, spec);
+export function isValidEIP155AssetName(id: string): boolean {
+  const { namespace, reference } = getParams<AssetNameParams>(
+    id,
+    CAIP["19"].assetName
+  );
 
   if (!isValidEIP155AssetNamespaceAndReference(namespace, reference)) {
     return false;
@@ -71,52 +51,44 @@ export function isValidEIP155AssetName(
   return true;
 }
 
-export function isValidEIP155AssetType(
-  id: string,
-  spec: IdentifierSpec
-): boolean {
-  if (!isValidId(id, spec)) {
-    return false;
-  }
-
-  const { chainId, assetName } = getParams<AssetTypeParams>(id, spec);
+export function isValidEIP155AssetType(id: string): boolean {
+  const { chainId, assetName } = getParams<AssetTypeParams>(
+    id,
+    CAIP["19"].assetType
+  );
 
   const chainIdString = chainId.toString();
 
-  if (!isValidEIP155ChainId(chainIdString, spec)) {
+  if (!isValidEIP155ChainId(chainIdString)) {
     return false;
   }
 
   const assetNameString = assetName.toString();
 
-  if (!isValidEIP155AssetName(assetNameString, spec)) {
+  if (!isValidEIP155AssetName(assetNameString)) {
     return false;
   }
 
   return true;
 }
 
-export function isValidEIP155AssetId(
-  id: string,
-  spec: IdentifierSpec
-): boolean {
-  if (!isValidId(id, spec)) {
-    return false;
-  }
-
+export function isValidEIP155AssetId(id: string): boolean {
   // not validating tokenId here because eip-155 namespace CAIP-19
   // doesnt have special restrictions on tokenId
-  const { chainId, assetName } = getParams<AssetIdParams>(id, spec);
+  const { chainId, assetName } = getParams<AssetIdParams>(
+    id,
+    CAIP["19"].assetId
+  );
 
   const chainIdString = chainId.toString();
 
-  if (!isValidEIP155ChainId(chainIdString, spec)) {
+  if (!isValidEIP155ChainId(chainIdString)) {
     return false;
   }
 
   const assetNameString = assetName.toString();
 
-  if (!isValidEIP155AssetName(assetNameString, spec)) {
+  if (!isValidEIP155AssetName(assetNameString)) {
     return false;
   }
 
@@ -156,7 +128,6 @@ export const isValidAddress = (address: string) =>
   new RegExp("^0x[a-fA-F0-9]{40}$", "i").test(address);
 
 // Referenced from https://eips.ethereum.org/EIPS/eip-55
-// todo check if we should allow capital 0X
 export const toChecksumAddress = (address: string) => {
   address = address.toLowerCase().replace("0x", "");
   var hash = createKeccakHash("keccak256").update(address).digest("hex");
@@ -185,6 +156,5 @@ export function isValidEIP155ChecksumAddress(address: string): boolean {
   if (!isValidAddress(address)) {
     return false;
   }
-  const checksumAddress = toChecksumAddress(address);
   return address === toChecksumAddress(address);
 }
