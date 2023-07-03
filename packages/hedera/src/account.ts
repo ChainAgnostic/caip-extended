@@ -35,7 +35,7 @@ export class HederaAccountId {
     if (!isValidId(id, this.spec)) {
       throw new Error(`Invalid hedera ${this.spec.name} provided: ${id}`);
     }
-    if (isValidHederaAccountId(id)) {
+    if (!isValidHederaAccountId(id)) {
       throw new Error(`Invalid hedera ${this.spec.name} provided: ${id}`);
     }
 

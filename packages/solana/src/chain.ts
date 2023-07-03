@@ -3,6 +3,7 @@ import {
   ChainIdParams,
   IdentifierSpec,
   getParams,
+  isValidId,
   joinParams,
 } from "caip-common";
 import {
@@ -26,7 +27,9 @@ export class SolanaChainId {
         params.reference
       )
     ) {
-      throw new Error(`Invalid ${SolanaChainId.spec.name} provided: ${params}`);
+      throw new Error(
+        `Invalid solana ${SolanaChainId.spec.name} provided: ${params}`
+      );
     }
 
     this.namespace = params.namespace;
@@ -34,7 +37,10 @@ export class SolanaChainId {
   }
 
   public static parse(id: string): ChainIdParams {
-    if (!isValidSolanaChainId(id, this.spec)) {
+    if (!isValidId(id, this.spec)) {
+      throw new Error(`Invalid solana ${this.spec.name} provided: ${id}`);
+    }
+    if (!isValidSolanaChainId(id)) {
       throw new Error(`Invalid solana ${this.spec.name} provided: ${id} `);
     }
 

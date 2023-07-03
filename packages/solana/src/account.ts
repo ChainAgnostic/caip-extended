@@ -4,6 +4,7 @@ import {
   CAIP,
   IdentifierSpec,
   getParams,
+  isValidId,
   joinParams,
 } from "caip-common";
 import { SolanaChainId } from "./chain";
@@ -23,7 +24,7 @@ export class SolanaAccountId {
 
     if (!isValidSolanaAddress(params.address)) {
       throw new Error(
-        `Invalid ${SolanaAccountId.spec.name} provided: ${params}`
+        `Invalid solana ${SolanaAccountId.spec.name} provided: ${params}`
       );
     }
 
@@ -31,8 +32,11 @@ export class SolanaAccountId {
   }
 
   public static parse(id: string): AccountIdParams {
-    if (isValidSolanaAccountId(id, this.spec)) {
-      throw new Error(`Invalid ${this.spec.name} provided: ${id}`);
+    if (!isValidId(id, this.spec)) {
+      throw new Error(`Invalid solana ${this.spec.name} provided: ${id}`);
+    }
+    if (!isValidSolanaAccountId(id)) {
+      throw new Error(`Invalid solana ${this.spec.name} provided: ${id}`);
     }
 
     const { namespace, reference, address } = getParams<AccountIdSplitParams>(

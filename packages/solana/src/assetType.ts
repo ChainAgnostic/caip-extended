@@ -3,6 +3,7 @@ import {
   CAIP,
   IdentifierSpec,
   getParams,
+  isValidId,
   joinParams,
 } from "caip-common";
 
@@ -25,8 +26,11 @@ export class SolanaAssetType {
   }
 
   public static parse(id: string): AssetTypeParams {
-    if (!isValidSolanaAssetType(id, this.spec)) {
-      throw new Error(`Invalid ${this.spec.name} provided: ${id}`);
+    if (!isValidId(id, this.spec)) {
+      throw new Error(`Invalid solana ${this.spec.name} provided: ${id}`);
+    }
+    if (!isValidSolanaAssetType(id)) {
+      throw new Error(`Invalid solana ${this.spec.name} provided: ${id}`);
     }
     return new SolanaAssetType(
       getParams<AssetTypeParams>(id, this.spec)

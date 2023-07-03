@@ -1,10 +1,10 @@
 import {
   AccountIdSplitParams,
+  AssetNameParams,
   AssetTypeParams,
-  IdentifierSpec,
+  CAIP,
+  ChainIdParams,
   getParams,
-  isValidId,
-  splitParams,
 } from "caip-common";
 
 // Define the base58btc pattern
@@ -14,34 +14,20 @@ const base58BTCPattern = new RegExp(`^[${base58BTCChars}]+$`);
 
 const solanaAddressRegex = new RegExp("[1-9A-HJ-NP-Za-km-z]{32,44}");
 
-export function isValidSolanaChainId(
-  id: string,
-  spec: IdentifierSpec
-): boolean {
-  if (!isValidId(id, spec)) {
-    return false;
-  }
+export function isValidSolanaChainId(id: string): boolean {
+  const { namespace, reference } = getParams<ChainIdParams>(id, CAIP["2"]);
 
-  const params = splitParams(id, spec);
-
-  if (!isValidSolanaChainIdNamespaceAndReference(params[0], params[1])) {
+  if (!isValidSolanaChainIdNamespaceAndReference(namespace, reference)) {
     return false;
   }
 
   return true;
 }
 
-export function isValidSolanaAccountId(
-  id: string,
-  spec: IdentifierSpec
-): boolean {
-  if (!isValidId(id, spec)) {
-    return false;
-  }
-
+export function isValidSolanaAccountId(id: string): boolean {
   const { namespace, reference, address } = getParams<AccountIdSplitParams>(
     id,
-    this.spec
+    CAIP["10"]
   );
 
   if (!isValidSolanaChainIdNamespaceAndReference(namespace, reference)) {
@@ -55,41 +41,33 @@ export function isValidSolanaAccountId(
   return true;
 }
 
-export function isValidSolanaAssetName(
-  id: string,
-  spec: IdentifierSpec
-): boolean {
-  if (!isValidId(id, spec)) {
-    return false;
-  }
+export function isValidSolanaAssetName(id: string): boolean {
+  const { namespace, reference } = getParams<AssetNameParams>(
+    id,
+    CAIP["19"].assetName
+  );
 
-  const params = splitParams(id, spec);
-
-  if (!isValidSolanaAssetNameAndReference(params[0], params[1])) {
+  if (!isValidSolanaAssetNameAndReference(namespace, reference)) {
     return false;
   }
 
   return true;
 }
 
-export function isValidSolanaAssetType(
-  id: string,
-  spec: IdentifierSpec
-): boolean {
-  if (!isValidId(id, spec)) {
-    return false;
-  }
-
-  const { chainId, assetName } = getParams<AssetTypeParams>(id, spec);
+export function isValidSolanaAssetType(id: string): boolean {
+  const { chainId, assetName } = getParams<AssetTypeParams>(
+    id,
+    CAIP["19"].assetType
+  );
 
   const chainIdString = chainId.toString();
   const assetNameString = assetName.toString();
 
-  if (!isValidSolanaChainId(chainIdString, spec)) {
+  if (!isValidSolanaChainId(chainIdString)) {
     return false;
   }
 
-  if (!isValidSolanaAssetName(assetNameString, spec)) {
+  if (!isValidSolanaAssetName(assetNameString)) {
     return false;
   }
 }
