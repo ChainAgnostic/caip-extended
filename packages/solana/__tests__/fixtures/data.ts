@@ -2,8 +2,8 @@ import { AssetIdParams, AssetTypeParams, AssetNameParams } from "caip-common";
 
 // ChainId Data Points
 export const CHAIN_ID_DELIMITER = ":";
-export const CHAIN_ID_NAMESPACE = "eip155";
-export const CHAIN_ID_REFERENCE = "1";
+export const CHAIN_ID_NAMESPACE = "solana";
+export const CHAIN_ID_REFERENCE = "5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp";
 export const CHAIN_ID_STRING =
   CHAIN_ID_NAMESPACE + CHAIN_ID_DELIMITER + CHAIN_ID_REFERENCE;
 export const CHAIN_ID_PARAMS = {
@@ -13,7 +13,8 @@ export const CHAIN_ID_PARAMS = {
 
 // AccountId Data Points
 export const ACCOUNT_ID_DELIMITER = ":";
-export const ACCOUNT_ID_ADDRESS = "0xab16a96D359eC26a11e2C2b3d8f8B8942d5Bfcdb";
+export const ACCOUNT_ID_ADDRESS =
+  "7S3P4HxJpyyigGzodYwHtCxZyUQe9JiBMHyRWXArAaKv";
 export const ACCOUNT_ID_STRING =
   CHAIN_ID_STRING + ACCOUNT_ID_DELIMITER + ACCOUNT_ID_ADDRESS;
 export const ACCOUNT_ID_PARAMS = {
@@ -36,8 +37,8 @@ export const INVALID_ACCOUNT_ID_PARAMS = {
 
 // AssetName Data Points
 export const ASSET_NAME_DELIMITER = ":";
-export const ASSET_NAMESPACE = "erc721";
-export const ASSET_REFERENCE = "0xab16a96D359eC26a11e2C2b3d8f8B8942d5Bfcdb";
+export const ASSET_NAMESPACE = "token";
+export const ASSET_REFERENCE = "Fz6LxeUg5qjesYX3BdmtTwyyzBtMxk644XiTqU5W3w9w";
 export const ASSET_NAME_STRING = `${ASSET_NAMESPACE}${ASSET_NAME_DELIMITER}${ASSET_REFERENCE}`;
 export const ASSET_NAME_PARAMS: AssetNameParams = {
   namespace: ASSET_NAMESPACE,

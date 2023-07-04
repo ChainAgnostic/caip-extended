@@ -68,3 +68,5 @@ export class SolanaAccountId {
     };
   }
 }
+
+// TODO check that only nft's could have tokenIds

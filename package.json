@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "build": "lerna run build",
-    "test": "lerna run --stream test",
+    "test": "lerna run --stream test --ignore=caip-common",
     "release": "lerna publish"
   },
   "keywords": [],

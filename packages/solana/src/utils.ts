@@ -70,6 +70,7 @@ export function isValidSolanaAssetType(id: string): boolean {
   if (!isValidSolanaAssetName(assetNameString)) {
     return false;
   }
+  return true;
 }
 
 export function isValidSolanaAssetNameAndReference(

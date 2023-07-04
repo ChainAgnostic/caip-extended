@@ -1,13 +1,11 @@
 import {
   AccountIdSplitParams,
+  AssetIdParams,
   AssetNameParams,
   AssetTypeParams,
-  IdentifierSpec,
-  getParams,
-  isValidId,
-  splitParams,
-  AssetIdParams,
   CAIP,
+  getParams,
+  splitParams,
 } from "caip-common";
 
 const hederaReferencesRegex = new RegExp("[-a-zA-Z0-9]{5,32}");
