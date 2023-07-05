@@ -1,18 +1,31 @@
 # caip-extended
 
-Mono Repo for CAIP namespaces
+CAIP-Extended is a monorepo housing multiple namespace-specific validation libraries for popular CAIP standards.
 
-# Namespaces
+Currently, we support validator for:
 
-- [caip-eip155](./packages/eip-155)
-- [caip-hedera](./packages/hedera/)
-- [caip-solana](./packages/solana/)
+- CAIP-2
+- CAIP-10
+- CAIP-19
+
+and the following namespaces:
+
+- EIP155
+- Solana
+- Hedera
+
+This library is split into individual packages so you can use what you need.
+
+- `caip-extended/common`: Generic package for validating CAIP values that are not namespace specific
+- `caip-extended/eip155`: EIP-155 namespace package for validating CAIP values
+- `caip-extended/solana`: Solana namespace package for validating CAIP values
+- `caip-extended/hedera`: Hedera namespace package for validating CAIP values
 
 # Getting Started
 
 ## ChainId (CAIP-2)
 
-### Object-oriented
+### Object-Oriented Example w/ EIP-155
 
 ```typescript
 import { ERC155ChainId } from "caip-erc155";
@@ -32,7 +45,7 @@ chainId.toJSON();
 // { namespace: "eip155", reference: "1" }
 ```
 
-### Functional
+### Functional Example w/ EIP-155
 
 ```typescript
 import { ERC155ChainId } from "caip-erc155";
@@ -48,7 +61,7 @@ ERC155ChainId.format({ namespace: "eip155", reference: "1" });
 
 ## AccountId (CAIP-10)
 
-### Object-oriented
+### Object-Oriented Example w/ EIP-155
 
 ```typescript
 import { ERC155AccountId } from "caip-erc155";
@@ -80,7 +93,7 @@ accountId.toJSON();
 // { address: "0xab16a96d359ec26a11e2c2b3d8f8b8942d5bfcdb", chainId: { namespace: "eip155", reference: "1" } }
 ```
 
-### Functional
+### Functional Example w/ EIP-155
 
 ```typescript
 import { ERC155AccountId } from "caip-erc155";
@@ -107,7 +120,7 @@ ERC155AccountId.format({
 
 ## AssetId (CAIP-19)
 
-### Object-oriented
+### Object-Oriented Example w/ EIP-155
 
 ```typescript
 import { ERC155AssetId } from "caip-erc155";
@@ -148,7 +161,7 @@ assetId.toJSON();
 // }
 ```
 
-### Functional
+### Functional Example w/ EIP-155
 
 ```typescript
 import { ERC155AssetId } from "caip-erc155";
@@ -186,7 +199,7 @@ ERC155AssetId.format({
 
 ## AssetType (CAIP-19)
 
-### Object-oriented
+### Object-Oriented Example w/ EIP-155
 
 ```typescript
 import { ERC155AssetType } from "caip-erc155";
@@ -224,7 +237,7 @@ assetType.toJSON();
 // }
 ```
 
-### Functional
+### Functional Example w/ EIP-155
 
 ```typescript
 import { ERC155AssetType } from "caip-erc155";
@@ -257,26 +270,23 @@ ERC155AssetType.format({
 // "eip155:1/erc721:0xab16a96d359ec26a11e2c2b3d8f8b8942d5bfcdb"
 ```
 
-# Adding namespaces
+# Adding new namespaces
 
-Follow the steps to add new namespaces
+This repo uses `pnpm` workspaces and is a Lerna monorepo. To add a new namespace package under the monorepo, follow these steps:
 
-- Create a new directory for namespace under the `package directory`.
-- To add caip-common, use `pnpm add caip-common`
+- Create a new package under the `pnpm` workspace under the `packages/` directory
+- Setup the config files
+  - Setup `package.json` with the proper package name and package version to match Lerna
+  - Setup `tsconfig.json` and `jest.config.ts`
+- Write the code under `src/`
+- Write tests under `__tests__/`
+- `pnpm build` and `pnpm test`
+- Update the `README.md` to include your new namespace
+- Publish the packages to `npm` using Lerna
 
-- For naming the packages, add abbreviated namespace prefix on caip- i.e. caip-eip155 for EVM and caip-hedera for Hedera Hashgraph.
--
-- Update the README.md with your namespace
+# References
 
-# Third-Party Libraries
-
-### ChainAgnostic/caip-js (MIT License)
-
-This project referenced code from the [ChainAgnostic/caip-js](https://github.com/ChainAgnostic/caip-js/tree/master) repository.
-
-- Repository: [ChainAgnostic/caip-js](https://github.com/ChainAgnostic/caip-js/tree/master)
-- License: MIT License
-- Owner: ChainAgnostic
+- `ChainAgnostic/caip-js`: This project referenced some code and took inspiration from `caip-js` published under the MIT License, and is in many ways an extension and improvement over that package.
 
 # License
 
