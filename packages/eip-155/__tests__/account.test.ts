@@ -15,7 +15,7 @@ describe("EIP155AccountId", () => {
     expect(result).toEqual(data.ACCOUNT_ID_NESTED_PARAMS);
   });
 
-  it.only("should format params", async () => {
+  it("should format params", async () => {
     const result = EIP155AccountId.format(data.ACCOUNT_ID_PARAMS);
     expect(result).toEqual(data.ACCOUNT_ID_STRING);
   });
