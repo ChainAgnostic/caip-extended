@@ -73,12 +73,20 @@ export function isValidEIP155AssetType(id: string): boolean {
 }
 
 export function isValidEIP155AssetId(id: string): boolean {
-  // not validating tokenId here because eip-155 namespace CAIP-19
-  // doesnt have special restrictions on tokenId
   const { chainId, assetName } = getParams<AssetIdParams>(
     id,
     CAIP["19"].assetId
   );
+
+  const { namespace } = getParams<AssetNameParams>(
+    assetName.toString(),
+    CAIP["19"].assetName
+  );
+
+  // only nft namespace has a tokenId
+  if (namespace !== "erc721") {
+    return false;
+  }
 
   const chainIdString = chainId.toString();
 

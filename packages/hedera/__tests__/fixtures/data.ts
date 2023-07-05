@@ -36,7 +36,7 @@ export const INVALID_ACCOUNT_ID_PARAMS = {
 
 // AssetName Data Points
 export const ASSET_NAME_DELIMITER = ":";
-export const ASSET_NAMESPACE = "token";
+export const ASSET_NAMESPACE = "nft";
 export const ASSET_REFERENCE = "0.0.278981";
 export const ASSET_NAME_STRING = `${ASSET_NAMESPACE}${ASSET_NAME_DELIMITER}${ASSET_REFERENCE}`;
 export const ASSET_NAME_PARAMS: AssetNameParams = {
@@ -86,7 +86,7 @@ export const INVALID_ASSET_TYPE_NESTED_PARAMS: AssetTypeParams = {
 };
 
 // AssetType Data Points
-export const TOKEN_ID = "0.0.278981";
+export const TOKEN_ID = "12";
 export const ASSET_ID_STRING = `${ASSET_TYPE_STRING}/${TOKEN_ID}`;
 export const ASSET_ID_PARAMS: AssetIdParams = {
   chainId: CHAIN_ID_STRING,

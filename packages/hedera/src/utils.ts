@@ -4,6 +4,7 @@ import {
   AssetNameParams,
   AssetTypeParams,
   CAIP,
+  ChainIdParams,
   getParams,
   splitParams,
 } from "caip-common";
@@ -21,9 +22,9 @@ const hederaAssetRegex = new RegExp(
 const hederaTokenIdRegex = new RegExp(`[0-9]{1,19}`);
 
 export function isValidHederaChainId(id: string): boolean {
-  const params = splitParams(id, CAIP["2"]);
+  const { namespace, reference } = getParams<ChainIdParams>(id, CAIP["2"]);
 
-  if (!isValidChainIdHederaNamespaceAndReference(params[0], params[1])) {
+  if (!isValidChainIdHederaNamespaceAndReference(namespace, reference)) {
     return false;
   }
 
@@ -86,6 +87,16 @@ export function isValidHederaAssetId(id: string): boolean {
     id,
     CAIP["19"].assetId
   );
+
+  const { namespace } = getParams<AssetNameParams>(
+    assetName.toString(),
+    CAIP["19"].assetName
+  );
+
+  // only nft namespace has a tokenId
+  if (namespace !== "nft") {
+    return false;
+  }
 
   const chainIdString = chainId.toString();
 
