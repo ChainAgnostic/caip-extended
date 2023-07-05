@@ -6,7 +6,9 @@ Mono Repo for CAIP namespaces
 
 - [caip-eip155](./packages/eip-155)
 - [caip-hedera](./packages/hedera/)
-- [caip-solana] (./packages/solana)
+- [caip-solana](./packages/solana/)
+
+# Getting Started
 
 ## ChainId (CAIP-2)
 
