@@ -2,17 +2,12 @@
 
 CAIP-Extended is a monorepo housing multiple namespace-specific validation libraries for popular CAIP standards.
 
-Currently, we support validator for:
+Currently, this monorepo includes close for the following namespace-specific packages, which each provide validator functions for the syntaxes listed
 
-- CAIP-2
-- CAIP-10
-- CAIP-19
-
-and the following namespaces:
-
-- EIP155
-- Solana
-- Hedera
+|name|CAIP-2|CAIP-10|CAIP-19|CAIP-122|
+|EIP155|X|X|X| |
+|Solana|X|X|X| |
+|Hedera|X|X|X| |
 
 This library is split into individual packages so you can use what you need.
 
@@ -281,7 +276,7 @@ This repo uses `pnpm` workspaces and is a Lerna monorepo. To add a new namespace
 - Write the code under `src/`
 - Write tests under `__tests__/`
 - `pnpm build` and `pnpm test`
-- Update the `README.md` to include your new namespace
+- Update the `README.md` to include your new namespace in the table
 - Publish the packages to `npm` using Lerna
 
 # References
