@@ -11,7 +11,7 @@ import createKeccakHash from "keccak";
 
 const eip155ChainIdRegex = new RegExp(`^\\d{1,32}$`);
 
-const eip155TokenIdRegex = new RegExp(`[-.%a-zA-Z0-9]{1,78}`);
+const eip155TokenIdRegex = new RegExp(`[\\d]{1,78}`);
 
 export function isValidEIP155ChainId(id: string): boolean {
   const { namespace, reference } = getParams<ChainIdParams>(id, CAIP["2"]);
@@ -73,7 +73,7 @@ export function isValidEIP155AssetType(id: string): boolean {
 }
 
 export function isValidEIP155AssetId(id: string): boolean {
-  const { chainId, assetName } = getParams<AssetIdParams>(
+  const { chainId, assetName, tokenId } = getParams<AssetIdParams>(
     id,
     CAIP["19"].assetId
   );
@@ -97,6 +97,10 @@ export function isValidEIP155AssetId(id: string): boolean {
   const assetNameString = assetName.toString();
 
   if (!isValidEIP155AssetName(assetNameString)) {
+    return false;
+  }
+
+  if (!isValidEIP155TokenId(tokenId)) {
     return false;
   }
 

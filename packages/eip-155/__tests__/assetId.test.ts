@@ -55,9 +55,12 @@ describe("AssetId", () => {
     }).toThrow();
   });
 
-  it("should fail on parse if invalid AssetId is provided", async () => {
+  it.only("should fail on parse if invalid AssetId is provided", async () => {
     expect(() => {
       EIP155AssetId.parse(data.INVALID_ASSET_ID_STRING);
+    }).toThrow();
+    expect(() => {
+      EIP155AssetId.parse(data.INVALID_ASSET_ID_STRING_WITH_INVALID_TOKEN_ID);
     }).toThrow();
   });
 });

@@ -103,6 +103,7 @@ export const ASSET_ID_NESTED_PARAMS: AssetIdParams = {
 // Invalid AssetId Data Points
 export const INVALID_TOKEN_ID = "**";
 export const INVALID_ASSET_ID_STRING = `${INVALID_ASSET_TYPE_STRING}/${TOKEN_ID}`;
+export const INVALID_ASSET_ID_STRING_WITH_INVALID_TOKEN_ID = `${ASSET_TYPE_STRING}/${INVALID_TOKEN_ID}`;
 export const INVALID_ASSET_ID_PARAMS: AssetIdParams = {
   chainId: CHAIN_ID_STRING,
   assetName: ASSET_NAME_STRING,
