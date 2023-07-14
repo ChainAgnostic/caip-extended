@@ -55,7 +55,7 @@ describe("AssetId", () => {
     }).toThrow();
   });
 
-  it.only("should fail on parse if invalid AssetId is provided", async () => {
+  it("should fail on parse if invalid AssetId is provided", async () => {
     expect(() => {
       EIP155AssetId.parse(data.INVALID_ASSET_ID_STRING);
     }).toThrow();
