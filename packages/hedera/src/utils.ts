@@ -11,13 +11,8 @@ import {
 
 const hederaReferencesRegex = new RegExp("[-a-zA-Z0-9]{5,32}");
 
-const hederaAddressRegex = new RegExp(
-  "[0-9]{1,19}.[0-9]{1,19}.[0-9]{1,19}(-[a-z]{5}){0,1}"
-);
-
-const hederaAssetRegex = new RegExp(
-  `[0-9]{1,19}\.[0-9]{1,19}\.[0-9]{1,19}(\-[a-z]{5}){0,1}`
-);
+const hederaAddressRegex =
+  /[0-9]{1,19}\.[0-9]{1,19}\.[0-9]{1,19}(\-[a-z]{5}){0,1}/;
 
 const hederaTokenIdRegex = new RegExp(`[0-9]{1,19}`);
 
@@ -134,7 +129,7 @@ export function isValidHederaAssetNamespaceAndReference(
   }
 
   // Check if the string matches the hedera reference regex pattern
-  if (!hederaAssetRegex.test(reference)) {
+  if (!hederaAddressRegex.test(reference)) {
     return false;
   }
 

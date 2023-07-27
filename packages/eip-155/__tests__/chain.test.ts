@@ -14,34 +14,34 @@ function assertChainIdInterface(result: EIP155ChainId) {
 }
 
 describe("EIP155ChainId", () => {
-  it("should parse string", async () => {
+  it("should parse string", () => {
     const result = EIP155ChainId.parse(CHAIN_ID_STRING);
     expect(result).toEqual(CHAIN_ID_PARAMS);
   });
 
-  it("should format params", async () => {
+  it("should format params", () => {
     const result = EIP155ChainId.format(CHAIN_ID_PARAMS);
     expect(result).toEqual(CHAIN_ID_STRING);
   });
 
-  it("should instantiate from json", async () => {
+  it("should instantiate from json", () => {
     const result = new EIP155ChainId(CHAIN_ID_PARAMS);
     assertChainIdInterface(result);
   });
 
-  it("should instantiate from string", async () => {
+  it("should instantiate from string", () => {
     const result = new EIP155ChainId(CHAIN_ID_STRING);
     assertChainIdInterface(result);
   });
 
-  it("should support JSON.stringify", async () => {
+  it("should support JSON.stringify", () => {
     const result = new EIP155ChainId(CHAIN_ID_STRING);
     const str = JSON.stringify(result);
     const json = JSON.parse(str);
     assertChainIdInterface(new EIP155ChainId(json));
   });
 
-  it("should not parse invalid string", async () => {
+  it("should not parse invalid string", () => {
     expect(() => {
       EIP155ChainId.parse("eip155:1:2");
     }).toThrow();
@@ -51,7 +51,7 @@ describe("EIP155ChainId", () => {
     }).toThrow();
   });
 
-  it("should fail if namespace is not eip-155", async () => {
+  it("should fail if namespace is not eip-155", () => {
     expect(() => {
       new EIP155ChainId("eip1191:1");
     }).toThrow();
@@ -64,7 +64,7 @@ describe("EIP155ChainId", () => {
     }).toThrow();
   });
 
-  it("should fail if reference is not a number", async () => {
+  it("should fail if reference is not a number", () => {
     expect(() => {
       new EIP155ChainId("eip155:abc");
     }).toThrow();
@@ -77,7 +77,7 @@ describe("EIP155ChainId", () => {
     }).toThrow();
   });
 
-  it("should fail if reference is not an integer", async () => {
+  it("should fail if reference is not an integer", () => {
     expect(() => {
       new EIP155ChainId("eip155:1.1");
     }).toThrow();
@@ -90,7 +90,7 @@ describe("EIP155ChainId", () => {
     }).toThrow();
   });
 
-  it("should fail if reference is not positive", async () => {
+  it("should fail if reference is not positive", () => {
     expect(() => {
       new EIP155ChainId("eip155:-1");
     }).toThrow();
@@ -103,7 +103,7 @@ describe("EIP155ChainId", () => {
     }).toThrow();
   });
 
-  it("should fail if reference is more than 32 characters", async () => {
+  it("should fail if reference is more than 32 characters", () => {
     expect(() => {
       new EIP155ChainId("eip155:123456789012345678901234567890123");
     }).toThrow();

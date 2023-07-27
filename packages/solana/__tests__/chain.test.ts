@@ -14,34 +14,34 @@ function assertChainIdInterface(result: SolanaChainId) {
 }
 
 describe("SolanaChainId", () => {
-  it("should parse string", async () => {
+  it("should parse string", () => {
     const result = SolanaChainId.parse(CHAIN_ID_STRING);
     expect(result).toEqual(CHAIN_ID_PARAMS);
   });
 
-  it("should format params", async () => {
+  it("should format params", () => {
     const result = SolanaChainId.format(CHAIN_ID_PARAMS);
     expect(result).toEqual(CHAIN_ID_STRING);
   });
 
-  it("should instantiate from json", async () => {
+  it("should instantiate from json", () => {
     const result = new SolanaChainId(CHAIN_ID_PARAMS);
     assertChainIdInterface(result);
   });
 
-  it("should instantiate from string", async () => {
+  it("should instantiate from string", () => {
     const result = new SolanaChainId(CHAIN_ID_STRING);
     assertChainIdInterface(result);
   });
 
-  it("should support JSON.stringify", async () => {
+  it("should support JSON.stringify", () => {
     const result = new SolanaChainId(CHAIN_ID_STRING);
     const str = JSON.stringify(result);
     const json = JSON.parse(str);
     assertChainIdInterface(new SolanaChainId(json));
   });
 
-  it("should not parse invalid string", async () => {
+  it("should not parse invalid string", () => {
     expect(() => {
       SolanaChainId.parse("test:1:2");
     }).toThrow();
@@ -51,7 +51,7 @@ describe("SolanaChainId", () => {
     }).toThrow();
   });
 
-  it("should fail if namespace is not solana", async () => {
+  it("should fail if namespace is not solana", () => {
     expect(() => {
       new SolanaChainId("eip1191:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp");
     }).toThrow();
@@ -64,7 +64,7 @@ describe("SolanaChainId", () => {
     }).toThrow();
   });
 
-  it("should fail if reference is not a valid network", async () => {
+  it("should fail if reference is not a valid network", () => {
     expect(() => {
       new SolanaChainId("solana:abc");
     }).toThrow();

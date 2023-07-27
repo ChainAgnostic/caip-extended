@@ -11,39 +11,39 @@ function assertInterface(result: HederaAssetId) {
 }
 
 describe("AssetId", () => {
-  it("should parse string", async () => {
+  it("should parse string", () => {
     const result = HederaAssetId.parse(data.ASSET_ID_STRING);
     expect(result).toEqual(data.ASSET_ID_NESTED_PARAMS);
   });
 
-  it("should format params", async () => {
+  it("should format params", () => {
     const result = HederaAssetId.format(data.ASSET_ID_PARAMS);
     expect(result).toEqual(data.ASSET_ID_STRING);
   });
 
-  it("should instantiate from params", async () => {
+  it("should instantiate from params", () => {
     const result = new HederaAssetId(data.ASSET_ID_PARAMS);
     assertInterface(result);
   });
 
-  it("should instantiate from string", async () => {
+  it("should instantiate from string", () => {
     const result = new HederaAssetId(data.ASSET_ID_STRING);
     assertInterface(result);
   });
 
-  it("should instantiate from nested params", async () => {
+  it("should instantiate from nested params", () => {
     const result = new HederaAssetId(data.ASSET_ID_NESTED_PARAMS);
     assertInterface(result);
   });
 
-  it("should support JSON.stringify", async () => {
+  it("should support JSON.stringify", () => {
     const result = new HederaAssetId(data.ASSET_ID_PARAMS);
     const str = JSON.stringify(result);
     const json = JSON.parse(str);
     assertInterface(new HederaAssetId(json));
   });
 
-  it("should throw an error if invalid AssetId is provided", async () => {
+  it("should throw an error if invalid AssetId is provided", () => {
     expect(() => {
       new HederaAssetId(data.INVALID_ASSET_ID_PARAMS);
     }).toThrow();
@@ -55,7 +55,7 @@ describe("AssetId", () => {
     }).toThrow();
   });
 
-  it("should fail on parse if invalid AssetId is provided", async () => {
+  it("should fail on parse if invalid AssetId is provided", () => {
     expect(() => {
       HederaAssetId.parse(data.INVALID_ASSET_ID_STRING);
     }).toThrow();

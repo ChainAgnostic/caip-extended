@@ -10,39 +10,39 @@ function assertInterface(result: SolanaAssetName) {
 }
 
 describe("SolanaAssetName", () => {
-  it("should parse string", async () => {
+  it("should parse string", () => {
     const result = SolanaAssetName.parse(data.ASSET_NAME_STRING);
     expect(result).toEqual(data.ASSET_NAME_PARAMS);
   });
 
-  it("should format params", async () => {
+  it("should format params", () => {
     const result = SolanaAssetName.format(data.ASSET_NAME_PARAMS);
     expect(result).toEqual(data.ASSET_NAME_STRING);
   });
 
-  it("should instantiate from params", async () => {
+  it("should instantiate from params", () => {
     const result = new SolanaAssetName(data.ASSET_NAME_PARAMS);
     assertInterface(result);
   });
 
-  it("should instantiate from string", async () => {
+  it("should instantiate from string", () => {
     const result = new SolanaAssetName(data.ASSET_NAME_STRING);
     assertInterface(result);
   });
 
-  it("should instantiate from nested params", async () => {
+  it("should instantiate from nested params", () => {
     const result = new SolanaAssetName(data.ASSET_NAME_PARAMS);
     assertInterface(result);
   });
 
-  it("should support JSON.stringify", async () => {
+  it("should support JSON.stringify", () => {
     const result = new SolanaAssetName(data.ASSET_NAME_PARAMS);
     const str = JSON.stringify(result);
     const json = JSON.parse(str);
     assertInterface(new SolanaAssetName(json));
   });
 
-  it("should fail if incorrect namespace", async () => {
+  it("should fail if incorrect namespace", () => {
     expect(() => {
       new SolanaAssetName(
         data.INVALID_ASSET_NAME_PARAMS_WITH_INCORRECT_NAMESPACE
@@ -55,7 +55,7 @@ describe("SolanaAssetName", () => {
     }).toThrow();
   });
 
-  it("should fail if incorrect reference", async () => {
+  it("should fail if incorrect reference", () => {
     expect(() => {
       new SolanaAssetName(
         data.INVALID_ASSET_NAME_PARAMS_WITH_INCORRECT_REFERENCE
@@ -69,7 +69,7 @@ describe("SolanaAssetName", () => {
     }).toThrow();
   });
 
-  it("should not parse invalid AssetName string", async () => {
+  it("should not parse invalid AssetName string", () => {
     expect(() => {
       SolanaAssetName.parse(
         data.INVALID_ASSET_NAME_STRING_WITH_INCORRECT_REFERENCE

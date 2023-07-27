@@ -14,34 +14,34 @@ function assertChainIdInterface(result: HederaChainId) {
 }
 
 describe("HederaChainId", () => {
-  it("should parse string", async () => {
+  it("should parse string", () => {
     const result = HederaChainId.parse(CHAIN_ID_STRING);
     expect(result).toEqual(CHAIN_ID_PARAMS);
   });
 
-  it("should format params", async () => {
+  it("should format params", () => {
     const result = HederaChainId.format(CHAIN_ID_PARAMS);
     expect(result).toEqual(CHAIN_ID_STRING);
   });
 
-  it("should instantiate from json", async () => {
+  it("should instantiate from json", () => {
     const result = new HederaChainId(CHAIN_ID_PARAMS);
     assertChainIdInterface(result);
   });
 
-  it("should instantiate from string", async () => {
+  it("should instantiate from string", () => {
     const result = new HederaChainId(CHAIN_ID_STRING);
     assertChainIdInterface(result);
   });
 
-  it("should support JSON.stringify", async () => {
+  it("should support JSON.stringify", () => {
     const result = new HederaChainId(CHAIN_ID_STRING);
     const str = JSON.stringify(result);
     const json = JSON.parse(str);
     assertChainIdInterface(new HederaChainId(json));
   });
 
-  it("should not parse invalid string", async () => {
+  it("should not parse invalid string", () => {
     expect(() => {
       HederaChainId.parse("test:1:2");
     }).toThrow();
@@ -51,7 +51,7 @@ describe("HederaChainId", () => {
     }).toThrow();
   });
 
-  it("should fail if namespace is not hedera", async () => {
+  it("should fail if namespace is not hedera", () => {
     expect(() => {
       new HederaChainId("eip1191:mainnet");
     }).toThrow();
@@ -64,7 +64,7 @@ describe("HederaChainId", () => {
     }).toThrow();
   });
 
-  it("should fail if reference is not a valid network", async () => {
+  it("should fail if reference is not a valid network", () => {
     expect(() => {
       new HederaChainId("hedera:abc");
     }).toThrow();
