@@ -1,8 +1,8 @@
 # caip-extended
 
-CAIP-Extended is a monorepo housing multiple namespace-specific validation libraries for popular CAIP standards.
+CAIP-Extended is a monorepo housing multiple [namespace][]-specific validation libraries for popular CAIP standards.
 
-Currently, this monorepo includes a common core set of tools, and the code for the following namespace-specific packages, which each provide validator functions for each of the syntaxes listed to the right
+Currently, this monorepo includes a common core set of tools, and the code for the following [namespace][]-specific packages, which each provide validator functions for each of the syntaxes listed to the right
 
 |namespace|CAIP-2|CAIP-10|CAIP-19|CAIP-122|
 |---|---|---|---|---|
@@ -285,6 +285,8 @@ To add a new common utility (i.e. a new CAIP to profile in each repo), reach out
 # References
 
 - `ChainAgnostic/caip-js`: This project referenced some code and took inspiration from `caip-js` published under the MIT License, and is in many ways a per-chain-packaged extension of that toolchain into each supported namespace.  The initial work was completed by @Sneh1999 as part of a bounty through [Learnweb3.io](https://learnweb3.io), and the repo and libraries are now maintained by CASA.
+
+[namespace]: https://namespaces.chainagnostic.org
 
 # License
 
