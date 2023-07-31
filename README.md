@@ -1,10 +1,11 @@
 # caip-extended
 
-CAIP-Extended is a monorepo housing multiple namespace-specific validation libraries for popular CAIP standards.
+CAIP-Extended is a monorepo housing multiple [namespace][]-specific validation libraries for popular CAIP standards.
 
-Currently, this monorepo includes close for the following namespace-specific packages, which each provide validator functions for the syntaxes listed
+Currently, this monorepo includes a common core set of tools, and the code for the following [namespace][]-specific packages, which each provide validator functions for each of the syntaxes listed to the right
 
-|name|CAIP-2|CAIP-10|CAIP-19|CAIP-122|
+|namespace|CAIP-2|CAIP-10|CAIP-19|CAIP-122|
+|---|---|---|---|---|
 |EIP155|X|X|X| |
 |Solana|X|X|X| |
 |Hedera|X|X|X| |
@@ -12,7 +13,7 @@ Currently, this monorepo includes close for the following namespace-specific pac
 This library is split into individual packages so you can use what you need.
 
 - `caip-extended/common`: Generic package for validating CAIP values that are not namespace specific
-- `caip-extended/eip155`: EIP-155 namespace package for validating CAIP values
+- `caip-extended/eip155`: EIP-155 (i.e. Ethereum Virtual Machine) namespace package for validating CAIP values
 - `caip-extended/solana`: Solana namespace package for validating CAIP values
 - `caip-extended/hedera`: Hedera namespace package for validating CAIP values
 
@@ -279,9 +280,13 @@ This repo uses `pnpm` workspaces and is a Lerna monorepo. To add a new namespace
 - Update the `README.md` to include your new namespace in the table
 - Publish the packages to `npm` using Lerna
 
+To add a new common utility (i.e. a new CAIP to profile in each repo), reach out to CASA for guidance by opening an issue that names the CAIP, and tag the authors of that CAIP.
+
 # References
 
-- `ChainAgnostic/caip-js`: This project referenced some code and took inspiration from `caip-js` published under the MIT License, and is in many ways an extension and improvement over that package.
+- `ChainAgnostic/caip-js`: This project referenced some code and took inspiration from `caip-js` published under the MIT License, and is in many ways a per-chain-packaged extension of that toolchain into each supported namespace.  The initial work was completed by @Sneh1999 as part of a bounty through [Learnweb3.io](https://learnweb3.io), and the repo and libraries are now maintained by CASA.
+
+[namespace]: https://namespaces.chainagnostic.org
 
 # License
 
